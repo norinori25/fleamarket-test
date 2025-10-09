@@ -1,0 +1,71 @@
+.register-container {
+    max-width: 680px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border: none;
+}
+
+.register-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn {
+    width: 100%;
+    background-color: red;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 50px;
+}
+
+.btn:hover {
+    background-color: brown;
+}
+
+.register-container input,
+.register-container .btn {
+    box-sizing: border-box;
+    /* パディング込みで幅を揃える */
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.login-link a {
+    text-decoration: none;
+    /* 下線を消す */
+    color: #007bff;
+    /* 青文字にする */
+    display: block;
+    text-align: center;
+    margin: 25px;
+}

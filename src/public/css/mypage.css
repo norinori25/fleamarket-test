@@ -1,0 +1,114 @@
+.mypage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 40px 60px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.mypage-header h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-btn {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #333;
+}
+
+/* サブメニュー（出品した商品／購入した商品） */
+.mypage-tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    background: #f9f9f9;
+    height: 47px;
+    align-items: center;
+    padding-left: 60px;
+    gap: 40px;
+}
+
+.mypage-tabs a {
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+}
+
+.mypage-tabs a.active {
+    color: #e00;
+    border-color: #e00;
+}
+
+/* 商品一覧エリア */
+.mypage-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.product-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-name {
+    font-size: 14px;
+    margin: 8px;
+    color: #333;
+    text-align: left;
+}
+
+.product-price {
+    font-weight: bold;
+    margin: 0 8px 12px;
+    color: #000;
+    text-align: left;
+}
+
+.no-products {
+    text-align: center;
+    margin: 60px;
+    color: #888;
+}

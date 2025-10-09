@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Product;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
+    }
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
