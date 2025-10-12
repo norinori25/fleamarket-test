@@ -9,10 +9,11 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $tab = $request->query('tab', 'all'); // デフォルトは'all'
+        $tab = $request->query('tab', 'all');
 
         if ($tab === 'mylist' && auth()->check()) {
-            $products = auth()->user()->favorites()->latest()->get();
+            $favorites = auth()->user()->favorites()->latest()->with('product')->get();
+            $products = $favorites->pluck('product')->filter();
         } else {
         $products = Product::latest()->get();
         }

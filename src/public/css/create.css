@@ -37,3 +37,20 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+.category-buttons label {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.category-buttons input[type="radio"] {
+    display: none;
+}
+
+.category-buttons input[type="radio"]:checked+span {
+    background-color: #007bff;
+    color: white;
+}

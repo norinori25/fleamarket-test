@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Favorite;
 
 class Product extends Model
 {
@@ -33,10 +34,14 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function favoritedBy()
-{
-    return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
-}
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
+    public function isFavoritedBy(User $user)
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
 
 }

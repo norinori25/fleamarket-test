@@ -22,7 +22,7 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'postal_code' => 'nullable|string|max:10',
             'address' => 'nullable|string|max:255',
-            'building_name' => 'nullable|string|max:255',
+            'building' => 'nullable|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -41,9 +41,9 @@ class ProfileController extends Controller
         $user->name = $request->name;
         $user->postal_code = $request->postal_code;
         $user->address = $request->address;
-        $user->building_name = $request->building_name;
+        $user->building = $request->building;
         $user->save();
 
-        return redirect()->route('profile.edit')->with('success', 'プロフィールを更新しました！');
+        return redirect()->to('/?tab=mylist')->with('success', 'プロフィールを更新しました！');
     }
 }
