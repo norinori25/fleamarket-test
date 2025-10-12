@@ -3,7 +3,7 @@
 @section('title', 'プロフィール設定画面')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endpush
 
 @section('search-form')
@@ -22,12 +22,16 @@
         @csrf
 
         <div class="image-upload">
-            <img src="sample.jpg" alt="プロフィール画像" class="profile-img">
-            <button type="button" class="select-btn">画像を選択</button>
+            <div>
+                <img src="sample.jpg" class="profile-img">
 
-            @if ($user->profile_image)
+                @if ($user->profile_image)
                 <img src="{{ asset('storage/' . $user->profile_image) }}" alt="プロフィール画像" width="120">
-            @endif
+                @endif
+            </div>
+            <div>
+                <button type="button" class="select-btn">画像を選択する</button>
+            </div>
         </div>
 
         <div class="form-group">
@@ -50,7 +54,7 @@
             <input type="text" name="building" id="building" value="{{ old('building', $user->building) }}">
         </div>
 
-        <button type="submit" class="btn-submit">更新する</button>
+        <button type="submit" class="btn">更新する</button>
     </form>
 </div>
 @endsection

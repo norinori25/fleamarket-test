@@ -56,9 +56,16 @@
 
 /* サーチフォーム */
 .search-form {
-    width: 60%;
+    width: 80%;
     /* 中央の横幅調整 */
     position: relative;
+}
+
+.search-form input::placeholder {
+    color: black;
+    /* プレースホルダーの文字色を黒に */
+    opacity: 1;
+    /* ブラウザによってはデフォルトで薄くなるので1にする */
 }
 
 /* サブヘッダー */
@@ -86,7 +93,7 @@
 /* 入力欄 */
 .search-form input[type="text"] {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     height: 30px;
     padding: 8px 10px 8px 30px;
     /* 右側にボタン分の余白 */
@@ -94,8 +101,7 @@
     border-radius: 2px;
     font-size: 18px;
     transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #f9f9f9;
-    /* 薄いグレーで落ち着き */
+    background-color: #fff;
 }
 
 /* ホバー・フォーカス時 */

@@ -2,6 +2,18 @@
 
 @section('title', '商品出品')
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/sell.css') }}">
+@endpush
+
+@section('search-form')
+    @include('components.search-form')
+@endsection
+
+@section('nav')
+@include('components.nav')
+@endsection
+
 @section('content')
 <div class="create-container">
     <h1>商品の出品</h1>
@@ -10,44 +22,37 @@
         @csrf
 
         <div class="form-group">
-            <label>画像URL</label>
+            <label>商品画像</label>
             <input type="text" name="image_url" value="{{ old('image_url') }}" required>
+            <button type="button" class="upload-btn">画像を選択する</button>
         </div>
 
-        <div class="prodduct-detail">
-            <p>商品の詳細</p>
-            <div>
-                <label>カテゴリー</label>
-                <div class="category-buttons">
-                    @foreach($categories as $category)
-                        <label style="margin-right:8px; display:inline-block; cursor:pointer;">
-                            <input type="radio" name="category_id" value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'checked' : '' }}>
-                            <span style="padding:5px 10px; border:1px solid #ccc; border-radius:5px;">{{ $category->name }}</span>
-                        </label>
-                    @endforeach
-                </div>
-                @error('category_id') <p style="color:red">{{ $message }}</p> @enderror
+        <div class="product-detail">
+            <h2>商品の詳細</h2>
+
+            <div class="form-group category-group">
+                <label>カテゴリー</label><br>
+                @foreach($categories as $category)
+                    <button type="button" class="category-btn" data-id="{{ $category->id }}">
+                        {{ $category->name }}
+                    </button>
+                @endforeach
+                <input type="hidden" name="category_id" id="category_id">
             </div>
 
-            <!-- 状態（セレクトボックス） -->
-            <div style="margin-top:10px;">
+            <div class="form-group">
                 <label>商品の状態</label>
-                <select name="condition">
-                    @php
-                        $conditions = [
-                            '良好', '目立った傷や汚れなし', 'やや傷や汚れあり', '状態が悪い'
-                        ];
-                    @endphp
-
-                    @foreach($conditions as $cond)
-                        <option value="{{ $cond }}" {{ old('condition') == $cond ? 'selected' : '' }}>
-                            {{ $cond }}
-                        </option>
-                    @endforeach
+                <select name="condition" required>
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="良好">良好</option>
+                    <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
+                    <option value="やや傷や汚れあり">やや傷や汚れあり</option>
+                    <option value="状態が悪い">状態が悪い</option>
                 </select>
-                @error('condition') <p style="color:red">{{ $message }}</p> @enderror
             </div>
         </div>
+
+        <h2 class="section-title">商品名と説明</h2>
 
         <div class="form-group">
             <label>商品名</label>
@@ -60,16 +65,19 @@
         </div>
 
         <div class="form-group">
-            <label>説明</label>
+            <label>商品の説明</label>
             <textarea name="description">{{ old('description') }}</textarea>
         </div>
 
         <div class="form-group">
             <label>販売価格</label>
-            <input type="number" name="price" value="{{ old('price') }}" required>
+            <div class="input-with-symbol">
+                <span class="price-symbol">¥</span>
+                <input type="number" name="price" value="{{ old('price') }}" required>
+            </div>
         </div>
 
-        <button type="submit" class="btn">出品する</button>
+        <button type="submit" class="btn-submit">出品する</button>
     </form>
 </div>
 @endsection

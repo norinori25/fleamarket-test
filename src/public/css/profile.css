@@ -1,19 +1,62 @@
-.register-container, 
-.login-container {
+.profile-edit-container {
     max-width: 680px;
+    width: 100%;
     margin: 30px auto;
     padding: 30px;
     background: #fff;
     border: none;
+    box-sizing: border-box;
 }
 
-.register-container h1,
-.login-container h1 {
+.profile-edit-container h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
     font-size: 28px;
     font-weight: bold;
+}
+
+/* 横並びに配置 */
+.image-upload {
+    display: flex;
+    margin: 40px 0;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+    /* 画像とボタンの間隔 */
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    /* 丸くする */
+    background-color: #ccc;
+    /* グレー背景 */
+    object-fit: cover;
+    /* 画像を枠いっぱいに */
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* 画像選択ボタン */
+.select-btn {
+    width: 179px;
+    height: 49px;
+    background-color: #fff;
+    border: 2px solid red;
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ホバー時 */
+.select-btn:hover {
+    background-color: red;
+    color: #fff;
 }
 
 .form-group {
@@ -62,15 +105,4 @@ input {
     color: red;
     font-size: 12px;
     margin-top: 4px;
-}
-
-.login-link a,
-.register-link a {
-    text-decoration: none;
-    /* 下線を消す */
-    color: #007bff;
-    /* 青文字にする */
-    display: block;
-    text-align: center;
-    margin: 25px;
 }

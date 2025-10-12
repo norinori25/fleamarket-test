@@ -1,0 +1,181 @@
+.create-container {
+    max-width: 680px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.create-container h1 {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* 画像URL入力欄 */
+.form-group {
+    position: relative;
+}
+
+.form-group input[name="image_url"] {
+    height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+/* ファイル選択風のボタンを中央に */
+.upload-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 165px;
+    height: 43px;
+    color: red;
+    background-color: #fff;
+    font-weight: bold;
+    border: 1px solid red;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ホバー時 */
+.upload-btn:hover {
+    background-color: red;
+    color: #fff;
+}
+
+/* 「商品の詳細」部分 */
+.prodduct-detail {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+/* h2（セクションタイトル）をフォーム幅と揃える */
+.product-detail h2,
+.section-title {
+    font-size: 27px;
+    font-weight: bold;
+    color: #666;
+    width: 100%;
+    /* ここを100%に */
+    max-width: 100%;
+    /* 念のため */
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    margin: 60px 0 30px 0;
+    /* 左右のマージンは0に */
+    box-sizing: border-box;
+    /* 幅にパディングとボーダーを含める */
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    font-size: 14px;
+    box-sizing: border-box;;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.input-with-symbol {
+    position: relative;
+    width: 100%;
+}
+
+.input-with-symbol .price-symbol {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.input-with-symbol input {
+    width: 100%;
+    padding-left: 30px;
+    /* ￥分のスペースを確保 */
+    height: 40px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* カテゴリーボタン */
+.category-btn {
+    height: 32px;
+    min-width: 52px;
+    background-color: #fff;
+    border: 2px solid red;
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin: 12px 10px;
+    padding: 0 15px;
+}
+
+.category-btn:hover {
+    background-color: red;
+    color: #fff;
+}
+
+/* 選択中（クリック後） */
+.category-btn.active {
+    background-color: red;
+    color: #fff;
+}
+
+/* 出品ボタン */
+.btn-submit {
+    width: 100%;
+    background-color: red;
+    color: #fff;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 30px;
+    transition: 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: brown;
+}

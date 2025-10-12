@@ -1,59 +1,37 @@
-.image-upload {
-    display: flex;
-    align-items: center;
-    /* 高さの中央でそろえる */
-    gap: 15px;
-    /* 画像とボタンの間隔 */
+.profile-edit-container {
+    max-width: 680px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border: none;
 }
 
-.profile-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    /* 丸くする */
-    object-fit: cover;
-    /* 画像を枠いっぱいに */
-    margin-left: 0;
-    /* 左寄せ */
-}
-
-.select-btn {
-    border: 2px solid red;
-    /* 赤枠 */
-    background-color: white;
-    /* 白背景 */
-    color: red;
-    /* 文字を赤にすると映える */
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.select-btn:hover {
-    background-color: red;
-    color: white;
+.mypage-container {
+    max-width: 1017px;
+    height: 150px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #f5f5f5;
+    position: relative;
 }
 
 .mypage-header {
+    width: 50%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #fff;
-    padding: 40px 60px 20px;
-    border-bottom: 1px solid #ddd;
+    border: none;
 }
 
 .user-info {
     display: flex;
     align-items: center;
-    gap: 20px;
 }
 
-.user-icon {
-    width: 80px;
-    height: 80px;
+.profile-img {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ccc;
@@ -72,21 +50,22 @@
     border-radius: 8px;
     text-decoration: none;
     font-size: 14px;
+    transition: 0.3s;
 }
 
 .edit-btn:hover {
     background-color: #333;
 }
 
-/* サブメニュー（出品した商品／購入した商品） */
+/* タブ切替 */
 .mypage-tabs {
     display: flex;
     border-bottom: 2px solid #ddd;
     background: #f9f9f9;
     height: 47px;
     align-items: center;
-    padding-left: 60px;
     gap: 40px;
+    padding-left: 20px;
 }
 
 .mypage-tabs a {
@@ -103,10 +82,10 @@
     border-color: #e00;
 }
 
-/* 商品一覧エリア */
+/* 商品一覧 */
 .mypage-products {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
     max-width: 1200px;
     margin: 40px auto;
@@ -131,22 +110,49 @@
     object-fit: cover;
 }
 
-.product-name {
-    font-size: 14px;
+.product-name,
+.product-price {
     margin: 8px;
-    color: #333;
     text-align: left;
 }
 
 .product-price {
     font-weight: bold;
-    margin: 0 8px 12px;
-    color: #000;
-    text-align: left;
 }
 
 .no-products {
     text-align: center;
     margin: 60px;
     color: #888;
+}
+
+/* ボタンデザイン（必要に応じて追加） */
+.select-btn {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.select-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+/* プロフィール画像用 */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    /* 丸くする */
+    background-color: #ccc;
+    /* グレー背景 */
+    object-fit: cover;
+    /* 画像を枠いっぱいに */
+    display: block;
+    margin-bottom: 10px;
 }

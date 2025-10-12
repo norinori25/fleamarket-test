@@ -6,7 +6,6 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
     @stack('css')
 </head>
 

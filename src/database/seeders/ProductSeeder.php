@@ -108,11 +108,13 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::create([
-                'user_id' => $users->random()->id,
-                'category_id' => $categories->random()->id,
-                ...$product,
-            ]);
+            Product::updateOrCreate(
+                ['name' => $product['name']], // nameが同じ商品は上書きせず存在チェック
+                array_merge([
+                    'user_id' => $users->random()->id,
+                    'category_id' => $categories->random()->id
+                ], $product)
+            );
         }
     }
 }
