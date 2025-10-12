@@ -8,13 +8,32 @@
     position: relative;
 }
 
-.main-header .container {
+.main-header .header-inner {
     width: 95%;
     max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+}
+
+.header-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .main-header .logo img {
@@ -33,6 +52,13 @@
     padding: 6px 12px;
     border-radius: 4px;
     margin-left: 10px;
+}
+
+/* サーチフォーム */
+.search-form {
+    width: 60%;
+    /* 中央の横幅調整 */
+    position: relative;
 }
 
 /* サブヘッダー */
@@ -57,31 +83,16 @@
     color: red;
 }
 
-.header-search {
-    position: relative;
-    /* 親を相対配置に */
-    flex: 1;
-    /* ヘッダー内で横幅を伸ばす */
-    display: flex;
-    justify-content: center;
-    /* 真ん中に配置 */
-}
-
-/* 検索フォーム */
-.search-form {
-    width: 300px;
-    position: relative;
-}
-
 /* 入力欄 */
 .search-form input[type="text"] {
     width: 100%;
+    max-width: 400px;
+    height: 30px;
     padding: 8px 10px 8px 30px;
     /* 右側にボタン分の余白 */
     border: 1px solid #ccc;
-    border-radius: 20px;
-    /* 丸みをつけて一体感 */
-    font-size: 14px;
+    border-radius: 2px;
+    font-size: 18px;
     transition: border-color 0.3s, box-shadow 0.3s;
     background-color: #f9f9f9;
     /* 薄いグレーで落ち着き */
@@ -141,10 +152,20 @@
 }
 
 /* レスポンシブ */
-@media screen and (max-width: 1400px) {
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
 
     .main-header .container,
     .product-list {
         width: 95%;
+    }
+
+    .search-form input[type="text"] {
+        max-width: 350px;
+        /* フォームを少し小さくして横並びを安定 */
+    }
+
+    .nav-right a {
+        margin-left: 15px;
+        /* ナビ間隔を少し狭くする */
     }
 }

@@ -2,14 +2,16 @@
 
 @section('title', 'COACHTECH | トップページ')
 
-@section('search')
-<form action="{{ route('products.search') }}" method="GET" class="search-form">
-    <input type="text" name="keyword" placeholder="なにをお探しですか?" value="{{ request('keyword') }}">
-    <button type="submit">検索</button>
-</form>
+@section('search-form')
+    @include('components.search-form')
+@endsection
+
+@section('nav')
+@include('components.nav')
 @endsection
 
 @section('content')
+@include('components.sub-header')
 <div class="product-list">
     @foreach ($products as $product)
         <div class="product-item">

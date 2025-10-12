@@ -1,3 +1,41 @@
+.image-upload {
+    display: flex;
+    align-items: center;
+    /* 高さの中央でそろえる */
+    gap: 15px;
+    /* 画像とボタンの間隔 */
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* 丸くする */
+    object-fit: cover;
+    /* 画像を枠いっぱいに */
+    margin-left: 0;
+    /* 左寄せ */
+}
+
+.select-btn {
+    border: 2px solid red;
+    /* 赤枠 */
+    background-color: white;
+    /* 白背景 */
+    color: red;
+    /* 文字を赤にすると映える */
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.select-btn:hover {
+    background-color: red;
+    color: white;
+}
+
 .mypage-header {
     display: flex;
     justify-content: space-between;

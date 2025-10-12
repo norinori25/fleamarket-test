@@ -2,6 +2,10 @@
 
 @section('title', '会員登録')
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
+
 @section('content')
 <div class="register-container">
     <h1>会員登録</h1>

@@ -1,4 +1,6 @@
-.register-container {
+.register-container, 
+.login-container,
+.profile-edit-container {
     max-width: 680px;
     margin: 30px auto;
     padding: 30px;
@@ -6,7 +8,9 @@
     border: none;
 }
 
-.register-container h1 {
+.register-container h1,
+.login-container h1,
+.profile-edit-container h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -28,7 +32,7 @@ input {
     width: 100%;
     padding: 10px;
     border: 1px solid #bbb;
-    border-radius: 6px;
+    border-radius: 3px;
     font-size: 14px;
 }
 
@@ -49,7 +53,9 @@ input {
 }
 
 .register-container input,
-.register-container .btn {
+.login-container input,
+.register-container .btn,
+.login-container .btn {
     box-sizing: border-box;
     /* パディング込みで幅を揃える */
 }
@@ -60,7 +66,8 @@ input {
     margin-top: 4px;
 }
 
-.login-link a {
+.login-link a,
+.register-link a {
     text-decoration: none;
     /* 下線を消す */
     color: #007bff;
