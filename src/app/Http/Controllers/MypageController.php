@@ -11,15 +11,19 @@ class MypageController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $tab = $request->query('tab', 'listed');
+        $user = Auth::user();
 
-        if ($tab === 'purchased') {
-            $products = $user->purchasedProducts()->latest()->get();
+        $page = $request->query('page', 'sell');
+
+        if ($page === 'sell') {
+            // 出品した商品
+            $products = $user->products;
         } else {
-        $products = $user->products()->latest()->get();
+            // 購入した商品
+            $products = $user->purchasedProducts;
         }
 
-        return view('mypage.index', compact('user', 'products', 'tab'));
+        return view('mypage.index', compact('user', 'products'));
     }
+
 }

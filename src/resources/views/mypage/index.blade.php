@@ -19,7 +19,7 @@
     <div class="mypage-header">
         <!-- 左側：プロフィール画像 + 名前 -->
         <div class="user-info-left">
-            <img src="{{ $user->profile_image ?? asset('img/default_user.png') }}" alt="プロフィール画像" class="profile-img">
+            <img src="{{ $user->profile_image? asset('storage/' . $user->profile_image): asset('img/default_user.png') }}" class="profile-img">
             <p>{{ $user->name }}</p>
         </div>
 
@@ -30,12 +30,16 @@
     </div>
 </div>
 
-
     <!-- タブ切替 -->
-    <div class="mypage-tabs">
-        <a href="{{ url('/mypage?tab=listed') }}" class="{{ request('tab') === 'listed' ? 'active' : '' }}">出品した商品</a>
-        <a href="{{ url('/mypage?tab=purchased') }}" class="{{ request('tab') === 'purchased' ? 'active' : '' }}">購入した商品</a>
-    </div>
+<div class="mypage-tabs">
+    <a href="{{ url('/mypage?page=sell') }}" class="{{ request('page') === 'sell' ? 'active' : '' }}">
+        出品した商品
+    </a>
+    <a href="{{ url('/mypage?page=buy') }}" class="{{ request('page') === 'buy' ? 'active' : '' }}">
+        購入した商品
+    </a>
+</div>
+
 
     <!-- 商品一覧 -->
     <div class="mypage-products">

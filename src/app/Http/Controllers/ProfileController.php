@@ -39,7 +39,7 @@ class ProfileController extends Controller
         // 他の項目を更新
         $user->fill($request->only(['name', 'postal_code', 'address', 'building']))->save();
 
-        return redirect()->route('profile.edit')->with('success', 'プロフィールを更新しました！');
+        return redirect()->route('mypage')->with('success', 'プロフィールを更新しました！');
     }
 
 }

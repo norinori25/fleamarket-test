@@ -19,22 +19,11 @@
 /* 横並びに配置 */
 .image-upload {
     display: flex;
-    margin: 20px 0;
+    margin: 30px 0;
     align-items: center;
     justify-content: flex-start;
     gap: 40px;
     /* 画像とボタンの間隔 */
-}
-
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: transparent;
-    object-fit: cover;
-    /* 画像を枠いっぱいに */
-    display: block;
-    margin-bottom: 10px;
 }
 
 /* 画像選択ボタン */
@@ -49,6 +38,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: 0.2s;
+    z-index: 1;
 }
 
 /* ホバー時 */
@@ -103,4 +93,32 @@ input {
     color: red;
     font-size: 12px;
     margin-top: 4px;
+}
+
+.image-wrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #bcbcbc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+        /* クリックは通す */
+    z-index: 0;
+        /* ここを明示的に下に */
 }
