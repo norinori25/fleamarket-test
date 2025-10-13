@@ -14,7 +14,7 @@ class ProfileController extends Controller
         return view('mypage.profile', compact('user'));
     }
 
-    public function update(Request $request)
+   public function update(Request $request)
     {
         $user = Auth::user();
 
@@ -28,8 +28,7 @@ class ProfileController extends Controller
 
         // 画像アップロード処理
         if ($request->hasFile('profile_image')) {
-            // 古い画像があれば削除
-            if ($user->profile_image) {
+            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
                 Storage::disk('public')->delete($user->profile_image);
             }
 
@@ -38,12 +37,9 @@ class ProfileController extends Controller
         }
 
         // 他の項目を更新
-        $user->name = $request->name;
-        $user->postal_code = $request->postal_code;
-        $user->address = $request->address;
-        $user->building = $request->building;
-        $user->save();
+        $user->fill($request->only(['name', 'postal_code', 'address', 'building']))->save();
 
-        return redirect()->to('/?tab=mylist')->with('success', 'プロフィールを更新しました！');
+        return redirect()->route('profile.edit')->with('success', 'プロフィールを更新しました！');
     }
+
 }

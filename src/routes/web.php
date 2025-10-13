@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 // 一般公開ルート
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -36,3 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
     Route::get('/purchase/payment/{item_id}', [PurchaseController::class, 'payment'])->name('purchase.payment');
 });
+
+Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');

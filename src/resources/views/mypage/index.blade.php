@@ -3,7 +3,7 @@
 @section('title', 'マイページ')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+<link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
 @endpush
 
 @section('search-form')
@@ -16,19 +16,20 @@
 
 @section('content')
 <div class="mypage-container">
-    <!-- ユーザー情報 -->
     <div class="mypage-header">
-        <div class="user-info">
+        <!-- 左側：プロフィール画像 + 名前 -->
+        <div class="user-info-left">
             <img src="{{ $user->profile_image ?? asset('img/default_user.png') }}" alt="プロフィール画像" class="profile-img">
-        </div>
-        <div class="user-info">
             <p>{{ $user->name }}</p>
         </div>
-    </div>
-    <div>
-        <a href="{{ route('profile.edit') }}" class="edit-btn">プロフィールを編集</a>
+
+        <!-- 右側：プロフィール編集ボタン -->
+        <div class="user-info-right">
+            <a href="{{ route('profile.edit') }}" class="edit-btn">プロフィールを編集</a>
+        </div>
     </div>
 </div>
+
 
     <!-- タブ切替 -->
     <div class="mypage-tabs">

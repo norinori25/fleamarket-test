@@ -8,8 +8,12 @@
 
     {{-- ログイン済み --}}
     @auth
-        <a href="{{ route('home') }}">ログアウト</a>
-        <a href="{{ route('mypage') }}">マイページ</a>
-        <a href="{{ route('products.create') }}" class="btn-create">出品</a>
+        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+    @csrf
+    <button type="submit" class="logout-btn">ログアウト</button>
+</form>
+<a href="{{ route('mypage') }}">マイページ</a>
+<a href="{{ route('products.create') }}" class="btn-create">出品</a>
+
     @endauth
 </nav>

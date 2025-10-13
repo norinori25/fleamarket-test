@@ -1,32 +1,40 @@
-.profile-edit-container {
-    max-width: 680px;
-    margin: 30px auto;
-    padding: 30px;
-    background: #fff;
-    border: none;
-}
-
 .mypage-container {
     max-width: 1017px;
-    height: 150px;
-    margin: 100px auto;
-    padding: 20px;
-    background: #f5f5f5;
+    margin: 80px auto;
+    background: white;
     position: relative;
 }
 
+/* ヘッダーを横並び */
 .mypage-header {
-    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    /* 左右に分散 */
+    align-items: center;
+    width: 100%;
+    background: white;
+}
+
+/* 左側：プロフィール画像 + 名前 */
+.user-info-left {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
-    border: none;
+    width: 35%;
 }
 
-.user-info {
+/* 名前 */
+.user-info-left p {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+/* 右側：編集ボタン */
+.user-info-right {
+    width: 50%;
     display: flex;
-    align-items: center;
+    justify-content: flex-end;
+    /* 右寄せ */
 }
 
 .profile-img {
@@ -35,43 +43,47 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ccc;
-}
-
-.mypage-header h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
+    display: block;
+    background-color: #ccc;
 }
 
 .edit-btn {
-    background-color: #000;
-    color: #fff;
-    padding: 10px 18px;
-    border-radius: 8px;
+    width: 310px;
+    height: 59px;
+    background-color: #fff;
+    border: 1px solid red;
+    color: red;
+    font-size: 27px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
-    font-size: 14px;
-    transition: 0.3s;
 }
 
 .edit-btn:hover {
-    background-color: #333;
+    background-color: darkred;
 }
 
 /* タブ切替 */
 .mypage-tabs {
     display: flex;
-    border-bottom: 2px solid #ddd;
-    background: #f9f9f9;
+    border-bottom: 3px solid #bbb;
+    background: #fff;
     height: 47px;
     align-items: center;
-    gap: 40px;
-    padding-left: 20px;
+    gap: 50px;
+    padding-left: 150px;
 }
 
 .mypage-tabs a {
     text-decoration: none;
     color: #555;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     padding-bottom: 6px;
     border-bottom: 3px solid transparent;
     transition: 0.2s;
@@ -87,7 +99,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 40px auto;
 }
 
@@ -141,18 +153,4 @@
 .select-btn:hover {
     background-color: red;
     color: white;
-}
-
-/* プロフィール画像用 */
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    /* 丸くする */
-    background-color: #ccc;
-    /* グレー背景 */
-    object-fit: cover;
-    /* 画像を枠いっぱいに */
-    display: block;
-    margin-bottom: 10px;
 }

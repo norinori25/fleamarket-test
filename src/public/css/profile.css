@@ -19,7 +19,7 @@
 /* 横並びに配置 */
 .image-upload {
     display: flex;
-    margin: 40px 0;
+    margin: 20px 0;
     align-items: center;
     justify-content: flex-start;
     gap: 40px;
@@ -30,9 +30,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    /* 丸くする */
-    background-color: #ccc;
-    /* グレー背景 */
+    background-color: transparent;
     object-fit: cover;
     /* 画像を枠いっぱいに */
     display: block;

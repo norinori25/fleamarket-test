@@ -18,21 +18,24 @@
 <div class="profile-edit-container">
     <h1>プロフィール設定</h1>
 
-    <form method="POST" action="{{ route('profile.update') }}">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+
         @csrf
 
         <div class="image-upload">
             <div>
-                <img src="sample.jpg" class="profile-img">
-
                 @if ($user->profile_image)
-                <img src="{{ asset('storage/' . $user->profile_image) }}" alt="プロフィール画像" width="120">
+                    <img src="{{ asset('storage/' . $user->profile_image) }}" alt="プロフィール画像" class="profile-img">
+                @else
+                    <img src="{{ asset('img/default.png') }}" class="profile-img">
                 @endif
             </div>
             <div>
-                <button type="button" class="select-btn">画像を選択する</button>
+                <input type="file" name="profile_image" id="profile_image" style="display:none;">
+                <button type="button" class="select-btn" onclick="document.getElementById('profile_image').click()">画像を選択する</button>
             </div>
         </div>
+
 
         <div class="form-group">
             <label for="name">ユーザー名</label>

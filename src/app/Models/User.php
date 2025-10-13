@@ -22,7 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'postal_code',
+        'address',
+        'building',
+        'profile_image',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,5 +56,13 @@ class User extends Authenticatable
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function purchasedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'purchases', 'user_id', 'product_id')
+                ->withTimestamps()
+                ->orderBy('created_at', 'desc');
+
     }
 }

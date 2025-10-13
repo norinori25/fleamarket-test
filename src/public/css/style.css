@@ -54,6 +54,24 @@
     margin-left: 10px;
 }
 
+.nav-right form {
+    display: inline;
+}
+
+.nav-right button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-right button:hover {
+    text-decoration: underline;
+}
+
 /* サーチフォーム */
 .search-form {
     width: 80%;
@@ -155,6 +173,23 @@
 .product-item img {
     width: 100%;
     height: auto;
+}
+
+/* ログアウトボタンをリンクと同じ見た目にする */
+.nav-right .logout-btn {
+    background: none;
+    /* 背景を完全に消す */
+    border: none;
+    /* 枠線も消す */
+    color: #fff;
+    /* 文字色を白に統一 */
+    font-size: 17px;
+    /* 他リンクと同じサイズに */
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    /* 余白もリセット */
 }
 
 /* レスポンシブ */
