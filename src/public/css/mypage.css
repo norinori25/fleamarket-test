@@ -92,35 +92,11 @@
 
 .mypage-tabs a.active {
     color: #e00;
-    border-color: #e00;
+    border: none;
 }
 
-/* 商品一覧 */
-.mypage-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    max-width: 1400px;
-    margin: 40px auto;
-}
-
-.product-card {
-    border: 1px solid #eee;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #fff;
-    text-align: center;
-    transition: 0.2s;
-}
-
-.product-card:hover {
+.product-item:hover {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
 }
 
 .product-name,

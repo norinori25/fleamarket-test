@@ -42,12 +42,11 @@
 
 
     <!-- 商品一覧 -->
-    <div class="mypage-products">
+    <div class="product-list">
         @forelse ($products as $product)
-            <div class="product-card">
+            <div class="product-item">
                 <img src="{{ $product->image_url ?? asset('img/default_product.png') }}" alt="{{ $product->name }}">
                 <p class="product-name">{{ $product->name }}</p>
-                <p class="product-price">¥{{ number_format($product->price) }}</p>
             </div>
         @empty
             <p class="no-products">商品がありません。</p>
