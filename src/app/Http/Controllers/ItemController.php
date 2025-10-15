@@ -10,8 +10,8 @@ class ItemController extends Controller
     public function show($item_id)
     {
         // 今はシンプルに商品データだけ取得
-        $item = Product::findOrFail($item_id);
+        $product = Product::findOrFail($item_id);
 
-        return view('item.show', compact('item'));
+        return view('products.show', compact('product'));
     }
 }

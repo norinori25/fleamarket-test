@@ -15,8 +15,10 @@
 <div class="product-list">
     @foreach ($products as $product)
         <div class="product-item">
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
-            <p class="product-name">{{ $product->name }}</p>
+            <a href="{{ route('products.show', ['item_id' => $product->id]) }}">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                <p class="product-name">{{ $product->name }}</p>
+            </a>
         </div>
     @endforeach
 </div>

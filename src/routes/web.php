@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
-Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
+Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('products.show');
 
 // ログイン必須ルート
 Route::middleware('auth')->group(function () {

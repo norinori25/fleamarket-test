@@ -1,22 +1,33 @@
 @extends('layouts.app')
 
-@section('title', $product->name)
+@section('title', '商品詳細画面')
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/product.css') }}">
+@endpush
+
+@section('search-form')
+    @include('components.search-form')
+@endsection
+
+@section('nav')
+@include('components.nav')
+@endsection
 
 @section('content')
-<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl">
-    <div class="text-center mb-6">
-        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="mx-auto w-64 h-64 object-cover rounded-xl">
+<div class="product-detail-container">
+    <div class="product-image-wrapper">
+        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="product-image">
     </div>
 
-    <h1 class="text-2xl font-bold mb-2">{{ $product->name }}</h1>
-    <p class="text-gray-600 mb-4">{{ $product->description }}</p>
-    <p class="text-lg font-semibold mb-2">価格：¥{{ number_format($product->price) }}</p>
-    <p class="text-gray-500">ブランド：{{ $product->brand_name ?: 'なし' }}</p>
-    <p class="text-gray-500 mb-6">状態：{{ $product->condition }}</p>
+    <h1 class="product-name">{{ $product->name }}</h1>
+    <p class="product-description">{{ $product->description }}</p>
+    <p class="product-price">価格：¥{{ number_format($product->price) }}</p>
+    <p class="product-brand">ブランド：{{ $product->brand_name ?: 'なし' }}</p>
+    <p class="product-condition">状態：{{ $product->condition }}</p>
 
     @auth
-        <a href="{{ route('purchase.show', ['item_id' => $product->id]) }}"
-           class="inline-block bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition">
+        <a href="{{ route('purchase.show', ['item_id' => $product->id]) }}" class="btn-purchase">
            購入に進む
         </a>
     @else

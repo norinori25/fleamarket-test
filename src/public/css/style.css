@@ -179,6 +179,10 @@
     vertical-align: top;
 }
 
+.product-item a {
+    text-decoration: none;
+}
+
 .product-name {
     font-size: 20px;
     font-weight: bold;
