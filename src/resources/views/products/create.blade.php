@@ -61,6 +61,18 @@
                 @endforeach
                 <input type="hidden" name="category_id" id="category_id">
             </div>
+            <script>
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const categoryInput = document.getElementById('category_id');
+
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    categoryInput.value = btn.getAttribute('data-id');
+                });
+            });
+            </script>
 
             <div class="form-group">
                 <label>商品の状態</label>
