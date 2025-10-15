@@ -39,8 +39,10 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $user = auth()->user(); // ← ログイン中のユーザーを取得
+        return view('products.create', compact('categories', 'user'));
     }
+
 
 
     public function store(Request $request)
@@ -50,24 +52,28 @@ class ProductController extends Controller
             'price' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'brand_name' => 'nullable|string|max:255',
-            'image_url' => 'required|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'category_id' => 'required|integer|exists:categories,id',
             'condition' => 'nullable|string|max:255',
         ]);
 
-        \App\Models\Product::create([
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('product_images', 'public');
+        }
+
+        Product::create([
             'user_id' => auth()->id(),
             'category_id' => $request->category_id,
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
             'brand_name' => $request->brand_name,
-            'image_url' => $request->image_url,
+            'image_url' => '/storage/' . $path, // URLとして保存
             'condition' => $request->condition ?? '良好',
             'status' => 'on_sale',
         ]);
 
-        return redirect()->route('home')->with('success', '商品を出品しました！');
+        return redirect()->route('mypage')->with('success', '商品を出品しました！');
     }
 
 }

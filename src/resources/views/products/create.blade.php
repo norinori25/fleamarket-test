@@ -18,14 +18,36 @@
 <div class="create-container">
     <h1>商品の出品</h1>
 
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
             <label>商品画像</label>
-            <input type="text" name="image_url" value="{{ old('image_url') }}" required>
-            <button type="button" class="upload-btn">画像を選択する</button>
+            <div class="image-upload-box" id="imageUploadBox">
+                <img id="previewImage" class="preview-img" style="display:none;">
+                <input type="file" name="image" id="imageUpload" accept="image/*" hidden>
+                <button type="button" class="upload-btn" onclick="document.getElementById('imageUpload').click()">画像を選択する</button>
+            </div>
         </div>
+
+
+        <script>
+        const imageUpload = document.getElementById('imageUpload');
+        const previewImage = document.getElementById('previewImage');
+
+        imageUpload.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.setAttribute('src', e.target.result);
+                    previewImage.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        </script>
+
 
         <div class="product-detail">
             <h2>商品の詳細</h2>
