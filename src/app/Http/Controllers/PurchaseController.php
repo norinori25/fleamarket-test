@@ -46,18 +46,29 @@ class PurchaseController extends Controller
     public function store(Request $request, $item_id)
     {
         $product = Product::findOrFail($item_id);
+        $paymentMethod = $request->input('payment_method');
 
-        if ($product->user_id === Auth::id()) {
-            return back()->with('error', '自分の商品は購入できません。');
+        if ($paymentMethod === 'card') {
+        // Stripeのカード支払いへ
+            return redirect()->route('stripe.card', ['item_id' => $product->id]);
+        } elseif ($paymentMethod === 'convenience') {
+        // Stripeのコンビニ支払いへ
+            return redirect()->route('stripe.convenience', ['item_id' => $product->id]);
         }
 
-        Purchase::create([
-            'user_id' => Auth::id(),
-            'product_id' => $product->id,
-            'address' => Auth::user()->address ?? '未設定',
-            'payment_method' => $request->payment ?? '未選択',
-        ]);
-
-        return redirect()->route('item.show', $item_id)->with('success', '購入が完了しました！');
+        return back()->with('error', '支払い方法を選択してください');
     }
+
+    // 決済成功時
+    public function success()
+    {
+        return view('purchase.success');
+    }
+
+    // 決済キャンセル時
+    public function cancel()
+    {
+        return view('purchase.cancel');
+    }
+
 }

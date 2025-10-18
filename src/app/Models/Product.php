@@ -36,12 +36,30 @@ class Product extends Model
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
     }
+
 
     public function isFavoritedBy(User $user)
     {
         return $this->favorites()->where('user_id', $user->id)->exists();
     }
+
+    public function index(Request $request)
+    {
+        $tab = $request->query('tab', 'all');
+
+        if ($tab === 'mylist' && auth()->check()) {
+        // ログインユーザーが「いいね」した商品だけ取得
+        $favorites = auth()->user()->favorites()->with('product')->latest()->get();
+        $products = $favorites->pluck('product')->filter();
+        } else {
+        // 通常のおすすめ商品
+        $products = Product::latest()->get();
+        }
+
+        return view('products.index', compact('products'));
+    }
+
 
 }

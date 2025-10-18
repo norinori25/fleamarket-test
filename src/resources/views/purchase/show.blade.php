@@ -2,37 +2,87 @@
 
 @section('title', '商品購入')
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
+@endpush
+
+@section('search-form')
+@include('components.search-form')
+@endsection
+
+@section('nav')
+@include('components.nav')
+@endsection
+
 @section('content')
-<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl">
-    <h1 class="text-xl font-bold mb-4">購入内容の確認</h1>
+<div class="purchase-container">
 
-    <div class="flex gap-6 mb-6">
-        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-40 h-40 object-cover rounded-xl">
-        <div>
-            <h2 class="text-lg font-semibold">{{ $product->name }}</h2>
-            <p class="text-gray-500">価格：¥{{ number_format($product->price) }}</p>
+    <div class="left-column">
+        {{-- 商品情報 --}}
+        <div class="product-info">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+            <div class="product-detail">
+                <h1>{{ $product->name }}</h1>
+                <p>¥{{ number_format($product->price) }}</p>
+            </div>
         </div>
+
+        {{-- 支払い方法と住所フォーム --}}
+        <form id="order-form">
+            @csrf
+
+            <div class="form-section">
+                <label for="payment_method">支払い方法</label>
+                <select id="payment_method" name="payment_method">
+                    <option value="card">カード支払い</option>
+                    <option value="konbini">コンビニ支払い</option>
+                </select>
+            </div>
+
+            <div class="form-section">
+                <label for="address">送付先</label>
+                <textarea id="address" name="address" rows="3">{{ Auth::user()->address ?? '' }}</textarea>
+                <button type="button" class="update-address-btn">変更を保存</button>
+            </div>
+        </form>
     </div>
 
-    <div class="mb-4">
-        <h3 class="font-semibold mb-1">送付先住所</h3>
-        <p>{{ Auth::user()->address ?? '住所未登録' }}</p>
-        <a href="{{ route('purchase.address.edit', ['item_id' => $product->id]) }}"
-           class="text-blue-500 underline">住所を変更する</a>
-    </div>
+    {{-- 右側の購入概要テーブル --}}
+    <div class="right-column">
+        <table class="purchase-summary">
+            <tr>
+                <th>商品代金</th>
+                <td>¥{{ number_format($product->price) }}</td>
+            </tr>
+            <tr>
+                <th>支払い方法</th>
+                <td id="summary-payment">カード支払い</td>
+            </tr>
+            <tr>
+                <th>送付先住所</th>
+                <td id="summary-address">{{ Auth::user()->address ?? '住所未登録' }}</td>
+            </tr>
+        </table>
 
-    <div class="mb-4">
-        <h3 class="font-semibold mb-1">支払い方法</h3>
-        <a href="{{ route('purchase.payment', ['item_id' => $product->id]) }}"
-           class="text-blue-500 underline">支払い方法を選択する</a>
+        <form action="{{ route('checkout') }}" method="POST">
+            @csrf
+            <button type="submit" class="purchase-btn">購入を確定する</button>
+        </form>
     </div>
-
-    <form action="{{ route('purchase.store', ['item_id' => $product->id]) }}" method="POST">
-        @csrf
-        <button type="submit"
-            class="bg-green-500 text-white px-6 py-3 rounded-xl hover:bg-green-600 transition">
-            購入を確定する
-        </button>
-    </form>
 </div>
+
+<!-- JSで動的反映 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('payment_method');
+    const display = document.getElementById('selected-payment');
+    const hiddenInput = document.getElementById('payment_method_input');
+
+    select.addEventListener('change', function() {
+        const text = select.options[select.selectedIndex].text;
+        display.textContent = text;
+        hiddenInput.value = select.value;
+    });
+});
+</script>
 @endsection

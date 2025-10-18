@@ -1,0 +1,120 @@
+.purchase-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 90px;
+    background: #fff;
+    font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+/* 左右の構成 */
+.left-column {
+    width: 60%;
+}
+
+.right-column {
+    width: 30%;
+}
+
+/* 商品情報（左） */
+.product-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.product-info img {
+    width: 177.53px;
+    height: 177.53px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.product-detail h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-detail p {
+    font-size: 24px;
+    color: #000;
+}
+
+/* フォームセクション */
+.form-section {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-section select,
+.form-section textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.update-address-btn {
+    margin-top: 8px;
+    align-self: flex-end;
+    background: red;
+    color: white;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+}
+
+.update-address-btn:hover {
+    background: darkred;
+}
+
+/* 購入情報テーブル（右） */
+.purchase-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    background: #fafafa;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.purchase-summary th,
+.purchase-summary td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+}
+
+.purchase-summary th {
+    width: 40%;
+    color: #444;
+    font-weight: 600;
+}
+
+/* 購入ボタン */
+.purchase-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: red;
+    color: #fff;
+    padding: 14px 0;
+    font-size: 16px;
+    transition: background 0.2s;
+    margin-top: 10px;
+    border-style: none;
+}
+
+.purchase-btn:hover {
+    background: darkred;
+}
