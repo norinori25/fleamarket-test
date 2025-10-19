@@ -1,85 +1,180 @@
 .product-detail-container {
     display: flex;
-    /* 横並びにする */
-    align-items: flex-start;
-    /* 上揃え */
-    gap: 90px;
-    /* 画像とテキストの間にスペース */
-    max-width: 1380px;
-    margin: 100px auto;
-    padding: 0 45px;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 90px;
     background: #fff;
 }
 
-.product-image-wrapper {
-    flex: 1;
-    /* 左側の画像領域 */
-    text-align: center;
+.left-column {
+    width: 690px;
+    height: auto;
+    margin: 36px 40px ;
+}
+
+.right-column {
+    width: 690px;
+    margin: 0px auto;
+    padding: 0px 60px 60px 60px;
 }
 
 .product-image {
-    width: 100%;
     width: 600px;
     height: 600px;
     object-fit: cover;
-}
-
-.product-info {
-    flex: 2;
-    /* 右側の説明エリア */
-}
-
-.product-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.product-description {
-    color: #4B5563;
-    margin-bottom: 1rem;
-}
-
-.product-price {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.product-brand,
-.product-condition {
-    color: #6B7280;
-    margin-bottom: 0.5rem;
-}
-
-.btn-purchase {
-    display: inline-block;
-    background-color: #3B82F6;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
-    transition: background-color 0.2s;
-    text-decoration: none;
-}
-
-.btn-purchase:hover {
-    background-color: #2563EB;
+    border: 1px solid #ddd;
 }
 
 .product-summary-box {
     width: 570px;
     height: 273px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    background-color: #fff;
 }
 
-.product-summary-box .product-name {
-    font-size: 1.5rem;
+.product-summary-box h1 {
+    font-size: 53px;
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-brand {
+    font-size: 20px;
+    margin: 4px 0;
+}
+
+.product-price {
+    font-size: 50px;
+    font-weight: 500;
+    margin: 20px 0 10px 0;
+}
+
+.tax-text {
+    font-size: 0.6em;
+}
+
+.interaction-buttons {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    color: #444;
+}
+
+.icon-btn:hover {
+    transform: scale(1.15);
+    color: #ffbf00;
+}
+
+.count {
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.comment-list {
+    margin-top: 20px;
+}
+.comment-item {
+    background-color: #f0f0f0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.admin-comment {
+    background-color: #e0e7ff;
+    /* 管理者コメント */
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.comment-input-section {
+    margin-top: 20px;
+}
+
+.comment-input-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.comment-input-section textarea {
+    width: 570px;
+    height: 56px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.btn-purchase,
+.btn-comment {
+    display: inline-block;
+    width: 570px;
+    height: 56px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    background-color: red;
+    color: #fff;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.btn-purchase:hover {
+    background-color: darkred;
+}
+
+.btn-comment:hover {
+    background-color: darkred;
+}
+
+.product-info h2 {
+    font-size: 40px;
+    margin: 40px 0 10px;
+    font-weight: bold;
+}
+
+.category-tag {
+    display: inline-block;
+    background-color: #ccc;
+    color: #000;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.product-description {
+    color: #000;
     margin-bottom: 1rem;
+}
+
+.product-condition {
+    color: #000;
+    margin-bottom: 0.5rem;
 }
 
 .favorite-btn {

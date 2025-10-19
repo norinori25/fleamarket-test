@@ -44,7 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/stripe/card/{item_id}', [StripeController::class, 'cardPayment'])->name('stripe.card');
     Route::get('/stripe/convenience/{item_id}', [StripeController::class, 'conveniencePayment'])->name('stripe.convenience');
     Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
-
+    // routes/web.php
+    Route::post('/products/{product}/comments', [CommentController::class, 'store'])
+    ->middleware('auth')
+    ->name('comments.store');
 });
 
 Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])

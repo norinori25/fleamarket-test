@@ -39,7 +39,6 @@ class Product extends Model
         return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
     }
 
-
     public function isFavoritedBy(User $user)
     {
         return $this->favorites()->where('user_id', $user->id)->exists();
@@ -61,5 +60,9 @@ class Product extends Model
         return view('products.index', compact('products'));
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
 }
