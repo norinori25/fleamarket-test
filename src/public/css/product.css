@@ -9,14 +9,13 @@
 
 .left-column {
     width: 690px;
-    height: auto;
-    margin: 36px 40px ;
+    margin: 36px 40px;
 }
 
 .right-column {
     width: 690px;
-    margin: 0px auto;
-    padding: 0px 60px 60px 60px;
+    margin: 0 auto;
+    padding: 0 60px 60px 60px;
 }
 
 .product-image {
@@ -28,7 +27,6 @@
 
 .product-summary-box {
     width: 570px;
-    height: 273px;
     display: flex;
     flex-direction: column;
 }
@@ -41,7 +39,7 @@
 
 .product-brand {
     font-size: 20px;
-    margin: 4px 0;
+    margin: 0;
 }
 
 .product-price {
@@ -51,14 +49,14 @@
 }
 
 .tax-text {
-    font-size: 0.6em;
+    font-size: 30px;
 }
 
 .interaction-buttons {
     display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    margin-top: 10px;
+    align-items: center;
+    margin: 20px 50px;
+    gap: 50px;
 }
 
 .icon-wrapper {
@@ -85,19 +83,22 @@
     margin-top: 4px;
 }
 
+.product-info-detail {
+    width: 570px;
+    height: 230px;
+    padding: 30px 0;
+    box-sizing: border-box;
+}
+
 .comment-list {
     margin-top: 20px;
 }
+
 .comment-item {
     background-color: #f0f0f0;
     padding: 12px 16px;
-    border-radius: 8px;
+    border-radius: 3px;
     margin-bottom: 12px;
-}
-
-.admin-comment {
-    background-color: #e0e7ff;
-    /* 管理者コメント */
 }
 
 .comment-header {
@@ -108,7 +109,7 @@
 }
 
 .comment-input-section {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .comment-input-section label {
@@ -117,18 +118,22 @@
     margin-bottom: 6px;
 }
 
+/* コメント欄サイズ＆リサイズ可 */
 .comment-input-section textarea {
     width: 570px;
-    height: 56px;
-    padding: 8px 12px;
-    border-radius: 8px;
+    height: 250px;
+    padding: 10px 14px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    resize: none;
+    resize: vertical;
+    font-size: 16px;
 }
 
 .btn-purchase,
 .btn-comment {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     width: 570px;
     height: 56px;
     text-align: center;
@@ -137,57 +142,55 @@
     font-weight: bold;
     transition: background-color 0.2s;
     text-decoration: none;
-    background-color: red;
+    background-color: #ff4b4b;
     color: #fff;
-    margin-top: 8px;
+    margin-top: 15px;
+    border: none;
     cursor: pointer;
 }
 
-.btn-purchase:hover {
-    background-color: darkred;
-}
-
+.btn-purchase:hover,
 .btn-comment:hover {
-    background-color: darkred;
+    background-color: #d93b3b;
 }
 
-.product-info h2 {
-    font-size: 40px;
-    margin: 40px 0 10px;
+.category-line,
+.condition-line {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin: 30px 30px 30px 0;
+}
+.category-line span:first-child,
+.condition-line span:first-child {
     font-weight: bold;
+    font-size: 18px;
+    color: #333;
 }
 
 .category-tag {
-    display: inline-block;
-    background-color: #ccc;
+    background-color: #ddd;
     color: #000;
     padding: 6px 16px;
     border-radius: 20px;
     font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.product-description {
-    color: #000;
-    margin-bottom: 1rem;
 }
 
 .product-condition {
     color: #000;
-    margin-bottom: 0.5rem;
 }
 
-.favorite-btn {
-    display: inline-block;
-    padding: 10px 18px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.2s;
+.product-info h2 {
+    font-size: 35px;
+    margin: 40px 0 35px;
+    font-weight: bold;
 }
 
-.favorite-btn:hover {
-    background-color: #ffe;
+.icon-btn svg {
+    width: 38px;
+    height: 38px;
+}
+
+h2#comment-section {
+    color: #777;
 }

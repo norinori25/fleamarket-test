@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -19,7 +19,7 @@ class FortifyServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // ユーザー登録処理
+        // ユーザー登録処理は CreateNewUser クラスに任せる
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // 登録後にプロフィールページへリダイレクト
@@ -27,7 +27,7 @@ class FortifyServiceProvider extends ServiceProvider
             return new class implements \Laravel\Fortify\Contracts\RegisterResponse {
                 public function toResponse($request)
                 {
-                return Redirect::route('profile.edit');
+                    return Redirect::route('profile.edit');
                 }
             };
         });

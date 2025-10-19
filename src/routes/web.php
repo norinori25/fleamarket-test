@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\CommentController;
+
 
 // 一般公開ルート
 Route::get('/', [ProductController::class, 'index'])->name('home');

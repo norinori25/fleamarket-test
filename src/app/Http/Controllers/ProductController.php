@@ -37,9 +37,6 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'tab', 'keyword'));
     }
 
-
-
-
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -58,8 +55,6 @@ class ProductController extends Controller
         $user = auth()->user(); // ← ログイン中のユーザーを取得
         return view('products.create', compact('categories', 'user'));
     }
-
-
 
     public function store(Request $request)
     {
@@ -92,4 +87,13 @@ class ProductController extends Controller
         return redirect()->route('mypage')->with('success', '商品を出品しました！');
     }
 
+    public function show($item_id)
+    {
+        $product = Product::with('comments.user') // コメントと投稿者を取得
+                      ->withCount('comments') // comments_count を取得
+                      ->withCount('favorites') // favorites_count も取得
+                      ->findOrFail($item_id);
+
+        return view('products.show', compact('product'));
+    }
 }

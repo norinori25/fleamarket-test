@@ -10,12 +10,12 @@
 <div class="login-container">
     <h1>ログイン</h1>
 
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" novalidate>
         @csrf
 
         <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+            <input id="email" type="email" name="email" value="{{ old('email') }}">
             @error('email')
                 <p class="error">{{ $message }}</p>
             @enderror
@@ -23,7 +23,7 @@
 
         <div class="form-group">
             <label for="password">パスワード</label>
-            <input id="password" type="password" name="password" required>
+            <input id="password" type="password" name="password">
             @error('password')
                 <p class="error">{{ $message }}</p>
             @enderror
