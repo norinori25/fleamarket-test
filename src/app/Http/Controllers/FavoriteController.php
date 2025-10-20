@@ -17,7 +17,9 @@ class FavoriteController extends Controller
             $user->favorites()->attach($productId); // 登録
         }
 
-        return back();
+        $product = Product::findOrFail($productId);
+
+        return redirect()->route('products.show', ['item_id' => $product->id]);
     }
 
     public function index()
@@ -25,11 +27,5 @@ class FavoriteController extends Controller
         $favorites = Auth::user()->favorites()->latest()->get();
         return view('favorites.index', compact('favorites'));
     }
-
-    public function favorites()
-    {
-    return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
-    }
-
 }
 

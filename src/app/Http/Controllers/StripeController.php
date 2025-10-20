@@ -36,7 +36,7 @@ class StripeController extends Controller
         return redirect($session->url);
     }
 
-    // 🟡 コンビニ支払い
+    //  コンビニ支払い
     public function conveniencePayment($id)
     {
         $product = Product::findOrFail($id);
@@ -62,4 +62,33 @@ class StripeController extends Controller
 
         return redirect($session->url);
     }
+
+    public function checkout(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $paymentMethod = $request->input('payment_method', 'card'); // デフォルトはカード
+
+        $session = Session::create([
+            'payment_method_types' => [$paymentMethod],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => [
+                        'name' => $product->name,
+                    ],
+                    'unit_amount' => $product->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('products.index'),
+            'cancel_url' => route('products.show', $product->id),
+        ]);
+
+        return redirect($session->url);
+    }
+
 }

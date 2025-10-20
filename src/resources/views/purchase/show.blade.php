@@ -37,6 +37,8 @@
                     <option value="card">カード支払い</option>
                     <option value="konbini">コンビニ支払い</option>
                 </select>
+
+                <input type="hidden" id="payment_method_input" name="payment_method" value="card">
             </div>
 
             <div class="form-section">
@@ -66,6 +68,7 @@
 
         <form action="{{ route('checkout') }}" method="POST">
             @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
             <button type="submit" class="purchase-btn">購入を確定する</button>
         </form>
     </div>

@@ -119,7 +119,7 @@
                 <label for="content">商品へのコメント</label>
 
                 @auth
-                    <form action="{{ route('comments.store', $product->id) }}" method="POST">
+                    <form action="{{ route('comments.store', ['item_id' => $product->id]) }}" method="POST">
                 @else
                     <form action="{{ route('login') }}" method="GET">
                 @endauth

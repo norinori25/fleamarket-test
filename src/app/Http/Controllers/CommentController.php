@@ -30,7 +30,7 @@ class CommentController extends Controller
             'content'    => $request->content,
         ]);
 
-         // ここで show() にリダイレクトして最新の comments_count を取得
-        return redirect()->route('products.show', $product_id)->with('success', 'コメントを投稿しました！');
+        return redirect()->route('products.show', ['item_id' => $product_id])->with('success', 'コメントを投稿しました！');
+
     }
 }
