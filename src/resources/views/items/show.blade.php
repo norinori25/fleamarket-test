@@ -3,7 +3,7 @@
 @section('title', '商品詳細画面')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/product.css') }}">
+<link rel="stylesheet" href="{{ asset('css/item.css') }}">
 @endpush
 
 @section('search-form')
@@ -15,32 +15,32 @@
 @endsection
 
 @section('content')
-<div class="product-detail-container">
+<div class="item-detail-container">
     <div class="left-column">
-        <div class="product-image-wrapper">
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="product-image">
+        <div class="item-image-wrapper">
+            <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-image">
         </div>
     </div>
 
     <div class="right-column">
-        <div class="product-info">
+        <div class="item-info">
 
             {{-- 商品概要 --}}
-            <div class="product-summary-box">
-                <h1 class="product-name">{{ $product->name }}</h1>
-                <p class="product-brand">{{ $product->brand_name ?: 'なし' }}</p>
-                <p class="product-price">
-                    ¥{{ number_format($product->price) }}<span class="tax-text">（税込）</span>
+            <div class="item-summary-box">
+                <h1 class="item-name">{{ $item->name }}</h1>
+                <p class="item-brand">{{ $item->brand_name ?: 'なし' }}</p>
+                <p class="item-price">
+                    ¥{{ number_format($item->price) }}<span class="tax-text">（税込）</span>
                 </p>
 
                 {{-- いいね＆コメントアイコン --}}
                 <div class="interaction-buttons">
                     {{-- いいね --}}
                     <div class="icon-wrapper">
-                        <form action="{{ route('favorites.toggle', $product->id) }}" method="POST">
+                        <form action="{{ route('favorites.toggle', $item->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="icon-btn">
-                                @if(auth()->check() && auth()->user()->favorites->contains($product->id))
+                                @if(auth()->check() && auth()->user()->favorites->contains($item->id))
                                     {{-- 塗り星SVG --}}
                                     <svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor"
                                          stroke="currentColor" stroke-width="1.3">
@@ -55,7 +55,7 @@
                                 @endif
                             </button>
                         </form>
-                        <p class="count">{{ $product->favorites_count ?? 0 }}</p>
+                        <p class="count">{{ $item->favorites_count ?? 0 }}</p>
                     </div>
 
                     {{-- コメント --}}
@@ -67,59 +67,82 @@
                                          c0-4.97 4.03-9 9-9s9 4.03 9 9z"/>
                             </svg>
                         </a>
-                        <p class="count">{{ $product->comments_count ?? 0 }}</p>
+                        <p class="count">{{ $item->comments_count ?? 0 }}</p>
                     </div>
                 </div>
             </div>
 
             {{-- 購入ボタン --}}
             @auth
-                <a href="{{ route('purchase.show', ['item_id' => $product->id]) }}" class="btn-purchase">購入手続きへ</a>
+                <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="btn-purchase">購入手続きへ</a>
             @else
                 <a href="{{ route('login') }}" class="btn-purchase">購入手続きへ</a>
             @endauth
 
             {{-- 商品説明 --}}
-            <div class="product-description">
+            <div class="item-description">
                 <h2>商品説明</h2>
-                <p class="product-description">{{ $product->description }}</p>
+                <p class="item-description">{{ $item->description }}</p>
             </div>
 
             {{-- 商品情報 --}}
-            <div class="product-info-detail">
+            <div class="item-info-detail">
                 <h2>商品の情報</h2>
                 <p class="category-line">
-                    <span>カテゴリー</span>
-                    <span class="category-tag">{{ $product->category->name }}</span>
+                    <span class="category-title">カテゴリー</span>
+                    <span class="category-tags">
+                        @foreach($item->categories as $category)
+                            <span class="category-tag">{{ $category->name }}</span>
+                        @endforeach
+                    </span>
                 </p>
+
 
                 <p class="condition-line">
                     <span>商品の状態</span>
-                    <span class="product-condition">{{ $product->condition }}</span>
+                    <span class="item-condition">{{ $item->condition }}</span>
                 </p>
             </div>
 
             {{-- コメントセクション --}}
-            <h2 id="comment-section">コメント（{{ $product->comments_count ?? 0 }}）</h2>
+            <h2 id="comment-section">コメント（{{ $item->comments_count ?? 0 }}）</h2>
 
+            {{-- admin コメント --}}
+            <div class="comment-item admin-comment">
+                <div class="comment-header">
+                    <div class="comment-user-img-wrapper">
+                        <img src="{{ asset('images/admin.png') }}" class="comment-user-img" >
+                    </div>
+                    <div class="comment-user-info">
+                        <strong class="user-name">admin</strong>
+                 </div>
+                </div>
+                <p class="comment-content">管理者からのサンプルコメントです。</p>
+            </div>
+
+            {{-- 通常コメント --}}
             <div class="comment-list">
-                @foreach ($product->comments as $comment)
+                @foreach ($item->comments as $comment)
                     <div class="comment-item">
                         <div class="comment-header">
-                            <strong>{{ $comment->user->name }}</strong>
-                            <span>{{ $comment->created_at->diffForHumans() }}</span>
+                            <img src="{{ $comment->user->profile_image_url ?? asset('images/default-user.png') }}" 
+                                alt="{{ $comment->user->name }}" class="comment-user-img">
+                            <div class="comment-user-info">
+                                <strong class="user-name">{{ $comment->user->name }}</strong>
+                                <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
+                            </div>
                         </div>
-                        <p>{{ $comment->content }}</p>
+                        <p class="comment-content">{{ $comment->content }}</p>
                     </div>
                 @endforeach
-            </div>
+            </div>  
 
             {{-- コメント入力フォーム --}}
             <div class="comment-input-section">
                 <label for="content">商品へのコメント</label>
 
                 @auth
-                    <form action="{{ route('comments.store', ['item_id' => $product->id]) }}" method="POST">
+                    <form action="{{ route('comments.store', ['item_id' => $item->id]) }}" method="POST">
                 @else
                     <form action="{{ route('login') }}" method="GET">
                 @endauth

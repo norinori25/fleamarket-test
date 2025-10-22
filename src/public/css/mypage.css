@@ -95,21 +95,21 @@
     border: none;
 }
 
-.product-item:hover {
+.item-item:hover {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-.product-name,
-.product-price {
+.item-name,
+.item-price {
     margin: 8px;
     text-align: left;
 }
 
-.product-price {
+.item-price {
     font-weight: bold;
 }
 
-.no-products {
+.no-items {
     text-align: center;
     margin: 60px;
     color: #888;

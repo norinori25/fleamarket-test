@@ -18,7 +18,7 @@
 <div class="create-container">
     <h1>商品の出品</h1>
 
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
@@ -49,7 +49,7 @@
         </script>
 
 
-        <div class="product-detail">
+        <div class="item-detail">
             <h2>商品の詳細</h2>
 
             <div class="form-group category-group">
@@ -59,17 +59,28 @@
                         {{ $category->name }}
                     </button>
                 @endforeach
-                <input type="hidden" name="category_id" id="category_id">
+                <input type="hidden" name="category_ids" id="category_ids">
             </div>
             <script>
             const categoryBtns = document.querySelectorAll('.category-btn');
-            const categoryInput = document.getElementById('category_id');
+            const categoryInput = document.getElementById('category_ids');
+            let selectedCategories = [];
 
             categoryBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    categoryInput.value = btn.getAttribute('data-id');
+                    const id = btn.getAttribute('data-id');
+
+                    // 選択済みなら解除、未選択なら追加
+                    if (selectedCategories.includes(id)) {
+                        selectedCategories = selectedCategories.filter(c => c !== id);
+                        btn.classList.remove('active');
+                    } else {
+                        selectedCategories.push(id);
+                        btn.classList.add('active');
+                    }
+
+                    // 選択されたid配列をJSON文字列で送信
+                    categoryInput.value = JSON.stringify(selectedCategories);
                 });
             });
             </script>

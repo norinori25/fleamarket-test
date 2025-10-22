@@ -5,16 +5,16 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Item;
 
-class ProductSeeder extends Seeder
+class ItemSeeder extends Seeder
 {
     public function run(): void
     {
         $users = User::all();
         $categories = Category::all();
 
-        $products = [
+        $items = [
             [
                 'name' => '腕時計',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => '',
                 'condition' => '状態が悪い',
                 'status' => 'on_sale',
-                'image_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg',
+                'image_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+item+Photo.jpg',
             ],
             [
                 'name' => 'ノートPC',
@@ -107,14 +107,17 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        foreach ($products as $product) {
-            Product::updateOrCreate(
-                ['name' => $product['name']], // nameが同じ商品は上書きせず存在チェック
+        foreach ($items as $itemData) {
+            $item = Item::updateOrCreate(
+                ['name' => $itemData['name']],
                 array_merge([
-                    'user_id' => $users->random()->id,
-                    'category_id' => $categories->random()->id
-                ], $product)
+                    'user_id' => $users->random()->id
+                ], $itemData)
             );
+
+            // 中間テーブルでカテゴリーを紐付け
+            $item->categories()->sync($categories->random(2)->pluck('id')->toArray());
         }
+
     }
 }

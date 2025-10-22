@@ -5,90 +5,40 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-use App\Models\Product;
+use App\Models\Item;
 
 class StripeController extends Controller
 {
-    // カード支払い
-    public function cardPayment($id)
-    {
-        $product = Product::findOrFail($id);
-
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $product->name,
-                    ],
-                    'unit_amount' => $product->price,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('products.index'),
-            'cancel_url' => route('products.index'),
-        ]);
-
-        return redirect($session->url);
-    }
-
-    //  コンビニ支払い
-    public function conveniencePayment($id)
-    {
-        $product = Product::findOrFail($id);
-
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $session = Session::create([
-            'payment_method_types' => ['konbini'], // Stripeが対応してる「コンビニ支払い」
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $product->name,
-                    ],
-                    'unit_amount' => $product->price,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('products.index'),
-            'cancel_url' => route('products.index'),
-        ]);
-
-        return redirect($session->url);
-    }
-
     public function checkout(Request $request)
     {
-        $product = Product::findOrFail($request->product_id);
+        $item = Item::findOrFail($request->item_id);
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $paymentMethod = $request->input('payment_method', 'card'); // デフォルトはカード
+        // 支払い方法（card または konbini）
+        $paymentMethod = $request->input('payment_method', 'card');
+
+        // 日本円なのでそのまま整数でOK
+        $unitAmount = $item->price;
 
         $session = Session::create([
             'payment_method_types' => [$paymentMethod],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
+                    'unit_amount' => $unitAmount, // そのまま円の整数
                     'product_data' => [
-                        'name' => $product->name,
+                        'name' => $item->name,
+                        'images' => [$item->image_url],
                     ],
-                    'unit_amount' => $product->price,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('products.index'),
-            'cancel_url' => route('products.show', $product->id),
+            'success_url' => route('items.index'),
+            'cancel_url' => route('items.show', $item->id),
         ]);
 
         return redirect($session->url);
     }
-
 }

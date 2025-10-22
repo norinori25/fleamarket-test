@@ -2,22 +2,37 @@
 
 @section('title', '送付先住所の変更')
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
+
+@section('search-form')
+@include('components.search-form')
+@endsection
+
+@section('nav')
+@include('components.nav')
+@endsection
+
 @section('content')
-<div class="max-w-md mx-auto p-6 bg-white shadow rounded-xl">
-    <h1 class="text-xl font-bold mb-4">送付先住所を変更</h1>
+<div class="register-container">
+    <h1>送付先住所を変更</h1>
 
-    <form action="{{ route('purchase.address.update', ['item_id' => $product->id]) }}" method="POST">
+    <form action="{{ route('purchase.address.update', ['item_id' => $item->id]) }}" method="POST">
         @csrf
-        <textarea name="address" rows="3" class="w-full border rounded p-2 mb-4" placeholder="新しい住所を入力">{{ old('address', Auth::user()->address ?? '') }}</textarea>
 
-        <div class="flex justify-between">
-            <a href="{{ route('purchase.show', ['item_id' => $product->id]) }}"
-               class="text-gray-600 underline">戻る</a>
+        <div class="form-group">
+            <label for="address">新しい住所</label>
+            <input type="text" name="address" value="{{ old('address', $user->address ?? '') }}" required>
+            @error('address')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <button type="submit"
-                class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-                保存する
-            </button>
+        <button type="submit" class="btn">保存する</button>
+
+        <div class="login-link">
+            <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}">戻る</a>
         </div>
     </form>
 </div>

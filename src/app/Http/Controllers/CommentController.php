@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Product;
+use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, $product_id)
+    public function store(CommentRequest $request, $item_id)
     {
         // 未ログインならログインページへリダイレクト
         if (!auth()->check()) {
@@ -21,16 +22,16 @@ class CommentController extends Controller
         ]);
 
         // 該当商品が存在するか確認（存在しないIDを防止）
-        $product = Product::findOrFail($product_id);
+        $item = Item::findOrFail($item_id);
 
         // コメント作成
         Comment::create([
             'user_id'    => auth()->id(),
-            'product_id' => $product->id,
+            'item_id' => $item->id,
             'content'    => $request->content,
         ]);
 
-        return redirect()->route('products.show', ['item_id' => $product_id])->with('success', 'コメントを投稿しました！');
+        return redirect()->route('items.show', ['item_id' => $item_id])->with('success', 'コメントを投稿しました！');
 
     }
 }

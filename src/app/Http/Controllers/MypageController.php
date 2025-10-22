@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Item;
 use App\Models\Category;
 
 class MypageController extends Controller
@@ -17,13 +17,13 @@ class MypageController extends Controller
 
         if ($page === 'sell') {
             // 出品した商品
-            $products = $user->products;
+            $items = $user->items;
         } else {
             // 購入した商品
-            $products = $user->purchasedProducts;
+            $items = $user->purchaseditems;
         }
 
-        return view('mypage.index', compact('user', 'products'));
+        return view('mypage.index', compact('user', 'items'));
     }
 
 }

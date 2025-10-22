@@ -19,11 +19,11 @@
 
     <div class="left-column">
         {{-- 商品情報 --}}
-        <div class="product-info">
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
-            <div class="product-detail">
-                <h1>{{ $product->name }}</h1>
-                <p>¥{{ number_format($product->price) }}</p>
+        <div class="item-info">
+            <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+            <div class="item-detail">
+                <h1>{{ $item->name }}</h1>
+                <p>¥{{ number_format($item->price) }}</p>
             </div>
         </div>
 
@@ -37,8 +37,6 @@
                     <option value="card">カード支払い</option>
                     <option value="konbini">コンビニ支払い</option>
                 </select>
-
-                <input type="hidden" id="payment_method_input" name="payment_method" value="card">
             </div>
 
             <div class="form-section">
@@ -54,7 +52,7 @@
         <table class="purchase-summary">
             <tr>
                 <th>商品代金</th>
-                <td>¥{{ number_format($product->price) }}</td>
+                <td>¥{{ number_format($item->price) }}</td>
             </tr>
             <tr>
                 <th>支払い方法</th>
@@ -68,7 +66,7 @@
 
         <form action="{{ route('checkout') }}" method="POST">
             @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
             <button type="submit" class="purchase-btn">購入を確定する</button>
         </form>
     </div>
@@ -78,14 +76,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const select = document.getElementById('payment_method');
-    const display = document.getElementById('selected-payment');
-    const hiddenInput = document.getElementById('payment_method_input');
+    const summary = document.getElementById('summary-payment');
 
     select.addEventListener('change', function() {
-        const text = select.options[select.selectedIndex].text;
-        display.textContent = text;
-        hiddenInput.value = select.value;
+        summary.textContent = select.options[select.selectedIndex].text;
     });
 });
+
 </script>
 @endsection

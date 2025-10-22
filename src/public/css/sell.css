@@ -70,14 +70,14 @@ label {
 }
 
 /* 「商品の詳細」部分 */
-.prodduct-detail {
+.itemduct-detail {
     border-bottom: 2px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 40px;
 }
 
 /* h2（セクションタイトル）をフォーム幅と揃える */
-.product-detail h2,
+.item-detail h2,
 .section-title {
     font-size: 27px;
     font-weight: bold;
@@ -104,7 +104,6 @@ select {
     border-radius: 3px;
     font-size: 14px;
     box-sizing: border-box;
-    ;
 }
 
 /* セレクトボックス選択中 */

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -21,9 +21,9 @@ class ItemController extends Controller
                     $q->where('name', 'like', "%{$keyword}%")->orWhere('brand_name', 'like', "%{$keyword}%")->orWhere('description', 'like', "%{$keyword}%");
                 });
             }
-            $products = $query->latest()->get();
+            $items = $query->latest()->get();
         } else {
-            $query = Product::query();
+            $query = Item::query();
 
             if ($keyword) {
                 $query->where(function ($q) use ($keyword) {
@@ -31,68 +31,76 @@ class ItemController extends Controller
                 });
             }
 
-            $products = $query->latest()->get();
+            $items = $query->latest()->get();
         }
 
-        return view('products.index', compact('products', 'tab', 'keyword'));
+        return view('items.index', compact('items', 'tab', 'keyword'));
     }
 
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
 
-        $products = Product::where('name', 'like', '%' . $keyword . '%')
+        $items = Item::where('name', 'like', '%' . $keyword . '%')
             ->orWhere('description', 'like', '%' . $keyword . '%')
             ->latest()
             ->get();
 
-        return view('products.index', compact('products'));
+        return view('items.index', compact('items'));
     }
 
     public function create()
     {
         $categories = Category::all();
         $user = auth()->user(); // ← ログイン中のユーザーを取得
-        return view('products.create', compact('categories', 'user'));
+        return view('items.create', compact('categories', 'user'));
     }
 
     public function store(Request $request)
     {
+        $categoryIds = json_decode($request->category_ids, true); // ← ここで変換
+
+        $request->merge(['category_ids' => $categoryIds]); // ← 配列に差し替え
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'brand_name' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'category_id' => 'required|integer|exists:categories,id',
+            'category_ids' => 'required|array', // ← 配列として受け取る
+            'category_ids.*' => 'integer|exists:categories,id',
             'condition' => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('product_images', 'public');
+            $path = $request->file('image')->store('item_images', 'public');
         }
 
-        Product::create([
+        $item = Item::create([
             'user_id' => auth()->id(),
-            'category_id' => $request->category_id,
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
             'brand_name' => $request->brand_name,
-            'image_url' => '/storage/' . $path, // URLとして保存
+            'image_url' => '/storage/' . $path,
             'condition' => $request->condition ?? '良好',
             'status' => 'on_sale',
         ]);
 
+        // 商品とカテゴリーの多対多登録
+        $item->categories()->sync($request->category_ids);
+
         return redirect()->route('mypage')->with('success', '商品を出品しました！');
     }
 
+
     public function show($item_id)
     {
-        $product = Product::withCount(['favorites', 'comments'])
-            ->with(['comments.user', 'category'])
+        $item = Item::withCount(['favorites', 'comments'])
+            ->with(['comments.user', 'categories'])
             ->findOrFail($item_id);
 
-        return view('products.show', compact('product'));
+        return view('items.show', compact('item'));
     }
 }

@@ -13,9 +13,9 @@ use App\Http\Controllers\CommentController;
 
 // 一般公開ルート
 Route::get('/', [ItemController::class, 'index'])->name('home');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/items', [itemController::class, 'index'])->name('items.index');
 
-Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('products.show');
+Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('items.show');
 
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
 Route::get('/purchase/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
@@ -30,17 +30,17 @@ Route::middleware('auth')->group(function () {
 
     // お気に入り
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-    Route::post('/favorites/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::post('/favorites/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
     // 出品
-    Route::get('/sell', [ItemController::class, 'create'])->name('products.create');
-    Route::post('/sell', [ItemController::class, 'store'])->name('products.store');
+    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/sell', [ItemController::class, 'store'])->name('items.store');
 
     // 購入フロー
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase.show');
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
-    Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
-    Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+    Route::get('/purchase/{item_id}/address', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
+    Route::post('/purchase/{item_id}/address', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
     Route::get('/purchase/payment/{item_id}', [PurchaseController::class, 'payment'])->name('purchase.payment');
     Route::get('/stripe/card/{item_id}', [StripeController::class, 'cardPayment'])->name('stripe.card');
     Route::get('/stripe/convenience/{item_id}', [StripeController::class, 'conveniencePayment'])->name('stripe.convenience');

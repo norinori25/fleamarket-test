@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    public function toggle($productId)
+    public function toggle($itemId)
     {
         $user = Auth::user();
 
-        if ($user->favorites()->where('product_id', $productId)->exists()) {
-            $user->favorites()->detach($productId); // 削除
+        if ($user->favorites()->where('item_id', $itemId)->exists()) {
+            $user->favorites()->detach($itemId); // 削除
         } else {
-            $user->favorites()->attach($productId); // 登録
+            $user->favorites()->attach($itemId); // 登録
         }
 
-        $product = Product::findOrFail($productId);
+        $item = Item::findOrFail($itemId);
 
-        return redirect()->route('products.show', ['item_id' => $product->id]);
+        return redirect()->route('items.show', ['item_id' => $item->id]);
     }
 
     public function index()

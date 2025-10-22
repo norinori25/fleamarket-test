@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Product;
+use App\Models\Item;
 
 class User extends Authenticatable
 {
@@ -50,18 +50,18 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
 
-    public function products()
+    public function items()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Item::class);
     }
 
-    public function purchasedProducts()
+    public function purchaseditems()
     {
-        return $this->belongsToMany(Product::class, 'purchases', 'user_id', 'product_id')
+        return $this->belongsToMany(Item::class, 'purchases', 'user_id', 'item_id')
                 ->withTimestamps()
                 ->orderBy('created_at', 'desc');
 

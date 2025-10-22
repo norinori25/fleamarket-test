@@ -18,26 +18,26 @@
 }
 
 /* 商品情報（左） */
-.product-info {
+.item-info {
     display: flex;
     align-items: flex-start;
     gap: 40px;
 }
 
-.product-info img {
+.item-info img {
     width: 177.53px;
     height: 177.53px;
     object-fit: cover;
     border: 1px solid #ddd;
 }
 
-.product-detail h1 {
+.item-detail h1 {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-.product-detail p {
+.item-detail p {
     font-size: 24px;
     color: #000;
 }

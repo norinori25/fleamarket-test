@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Comment;
 
-class item extends Model
+class Item extends Model
 {
     use HasFactory;
 
@@ -19,7 +19,6 @@ class item extends Model
         'description',
         'price',
         'brand_name',
-        'category_id',
         'status',
         'condition',
         'image_url',

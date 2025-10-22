@@ -12,12 +12,12 @@
 
 @section('content')
 @include('components.sub-header')
-<div class="product-list">
-    @foreach ($products as $product)
-        <div class="product-item">
-            <a href="{{ route('products.show', ['item_id' => $product->id]) }}">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
-                <p class="product-name">{{ $product->name }}</p>
+<div class="item-list">
+    @foreach ($items as $item)
+        <div class="item-item">
+            <a href="{{ route('items.show', ['item_id' => $item->id]) }}">
+                <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+                <p class="item-name">{{ $item->name }}</p>
             </a>
         </div>
     @endforeach

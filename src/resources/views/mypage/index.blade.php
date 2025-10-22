@@ -42,14 +42,14 @@
 
 
     <!-- 商品一覧 -->
-    <div class="product-list">
-        @forelse ($products as $product)
-            <div class="product-item">
-                <img src="{{ $product->image_url ?? asset('img/default_product.png') }}" alt="{{ $product->name }}">
-                <p class="product-name">{{ $product->name }}</p>
+    <div class="item-list">
+        @forelse ($items as $item)
+            <div class="item-item">
+                <img src="{{ $item->image_url ?? asset('img/default_item.png') }}" alt="{{ $item->name }}">
+                <p class="item-name">{{ $item->name }}</p>
             </div>
         @empty
-            <p class="no-products">商品がありません。</p>
+            <p class="no-items">商品がありません。</p>
         @endforelse
     </div>
 </div>
