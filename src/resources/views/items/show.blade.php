@@ -111,13 +111,16 @@
             <div class="comment-item admin-comment">
                 <div class="comment-header">
                     <div class="comment-user-img-wrapper">
-                        <img src="{{ asset('images/admin.png') }}" class="comment-user-img" >
+                        @if(file_exists(public_path('img/admin.png')))
+                            <img src="{{ asset('img/admin.png') }}" class="profile-img admin-img">
+                        @endif
                     </div>
+
                     <div class="comment-user-info">
                         <strong class="user-name">admin</strong>
-                 </div>
+                    </div>
                 </div>
-                <p class="comment-content">管理者からのサンプルコメントです。</p>
+                <p class="comment-content">こちらにコメントが入ります。</p>
             </div>
 
             {{-- 通常コメント --}}

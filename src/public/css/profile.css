@@ -16,17 +16,14 @@
     font-weight: bold;
 }
 
-/* 横並びに配置 */
 .image-upload {
     display: flex;
     margin: 30px 0;
     align-items: center;
     justify-content: flex-start;
     gap: 40px;
-    /* 画像とボタンの間隔 */
 }
 
-/* 画像選択ボタン */
 .select-btn {
     width: 179px;
     height: 49px;
