@@ -27,24 +27,46 @@
             </div>
         </div>
 
-        {{-- 支払い方法と住所フォーム --}}
-        <form id="order-form">
-            @csrf
+        {{-- 横線 --}}
+        <div class="divider"></div>
 
-            <div class="form-section">
-                <label for="payment_method">支払い方法</label>
-                <select id="payment_method" name="payment_method">
-                    <option value="card">カード支払い</option>
-                    <option value="konbini">コンビニ支払い</option>
+        {{-- 支払い方法 --}}
+        <div class="payment-section">
+            <h2>支払い方法</h2>
+        </div>
+        <div class="form-section">
+            <form action="{{ route('purchase.store', ['item_id' => $item->id]) }}" method="POST">
+                @csrf
+                <select name="payment_method" class="payment-select" required>
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="convenience">コンビニ払い</option>
+                    <option value="card">カード払い</option>
                 </select>
-            </div>
+            </form>
+        </div>
 
-            <div class="form-section">
-                <label for="address">送付先</label>
-                <textarea id="address" name="address" rows="3">{{ Auth::user()->address ?? '' }}</textarea>
-                <button type="button" class="update-address-btn">変更を保存</button>
+        {{-- 横線 --}}
+        <div class="divider"></div>
+
+        {{-- 住所セクション --}}
+        <div class="address-section">
+            <div class="address-header">
+                <h2>配送先</h2>
             </div>
-        </form>
+            <div class="address-edit-link">
+                <a href="{{ route('purchase.address.edit', ['item_id' => $item->id]) }}">変更する</a>
+            </div>
+        </div>
+        <div class="address-content">
+            <p>〒{{ $shippingAddress['postal_code'] }}</p>
+            <p>{{ $shippingAddress['address'] }}</p>
+            @if(!empty($shippingAddress['building']))
+                <p>{{ $shippingAddress['building'] }}</p>
+            @endif
+        </div>
+
+        {{-- 横線 --}}
+        <div class="divider"></div>
     </div>
 
     {{-- 右側の購入概要テーブル --}}
@@ -57,17 +79,13 @@
             <tr>
                 <th>支払い方法</th>
                 <td id="summary-payment">カード支払い</td>
-            </tr>
-            <tr>
-                <th>送付先住所</th>
-                <td id="summary-address">{{ Auth::user()->address ?? '住所未登録' }}</td>
-            </tr>
+            </tr>    
         </table>
 
         <form action="{{ route('checkout') }}" method="POST">
             @csrf
             <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <button type="submit" class="purchase-btn">購入を確定する</button>
+            <button type="submit" class="purchase-btn">購入する</button>
         </form>
     </div>
 </div>

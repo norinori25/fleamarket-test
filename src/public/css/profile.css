@@ -28,8 +28,8 @@
     width: 179px;
     height: 49px;
     background-color: #fff;
-    border: 2px solid red;
-    color: red;
+    border: 2px solid #FF5555;
+    color: #FF5555;
     font-size: 18px;
     font-weight: bold;
     border-radius: 6px;
@@ -64,7 +64,7 @@ input {
 
 .btn {
     width: 100%;
-    background-color: red;
+    background-color: #FF5555;
     color: #fff;
     padding: 12px;
     border: none;

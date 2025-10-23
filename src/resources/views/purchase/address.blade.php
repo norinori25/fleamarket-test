@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '送付先住所の変更')
+@section('title', '住所の変更')
 
 @push('css')
 <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
@@ -15,25 +15,28 @@
 @endsection
 
 @section('content')
-<div class="register-container">
-    <h1>送付先住所を変更</h1>
+<div class="address-edit-container">
+    <h1>住所の変更</h1>
 
     <form action="{{ route('purchase.address.update', ['item_id' => $item->id]) }}" method="POST">
         @csrf
+        <div class="form-group">
+            <label>郵便番号</label>
+            <input type="text" name="postal_code" value="{{ old('postal_code', $shippingAddress['postal_code']) }}">
+        </div>
 
         <div class="form-group">
-            <label for="address">新しい住所</label>
-            <input type="text" name="address" value="{{ old('address', $user->address ?? '') }}" required>
-            @error('address')
-                <div class="error">{{ $message }}</div>
-            @enderror
+            <label>住所</label>
+            <input type="text" name="address" value="{{ old('address', $shippingAddress['address']) }}">
         </div>
 
-        <button type="submit" class="btn">保存する</button>
-
-        <div class="login-link">
-            <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}">戻る</a>
+        <div class="form-group">
+            <label>建物名</label>
+            <input type="text" name="building" value="{{ old('building', $shippingAddress['building']) }}">
         </div>
+
+        <button type="submit" class="btn">更新する</button>
     </form>
 </div>
 @endsection
+

@@ -53,10 +53,10 @@ label {
 .upload-btn {
     width: 165px;
     height: 43px;
-    color: red;
+    color: #FF5555;
     background-color: #fff;
     font-weight: bold;
-    border: 1px solid red;
+    border: 1px solid #FF5555;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.2s;
@@ -83,15 +83,11 @@ label {
     font-weight: bold;
     color: #666;
     width: 100%;
-    /* ここを100%に */
     max-width: 100%;
-    /* 念のため */
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
     margin: 60px 0 30px 0;
-    /* 左右のマージンは0に */
     box-sizing: border-box;
-    /* 幅にパディングとボーダーを含める */
 }
 
 input[type="text"],
@@ -108,7 +104,7 @@ select {
 
 /* セレクトボックス選択中 */
 select:focus {
-    background-color: #555;
+    background-color: #5F5F5F;
     color: #fff;
     outline: none;
 }
@@ -154,8 +150,8 @@ textarea {
     height: 32px;
     min-width: 52px;
     background-color: #fff;
-    border: 2px solid red;
-    color: red;
+    border: 2px solid #FF5555;
+    color: #FF5555;
     font-size: 14px;
     font-weight: bold;
     border-radius: 50px;
@@ -179,7 +175,7 @@ textarea {
 /* 出品ボタン */
 .btn-submit {
     width: 100%;
-    background-color: red;
+    background-color: #FF5555;
     color: #fff;
     padding: 14px;
     border: none;

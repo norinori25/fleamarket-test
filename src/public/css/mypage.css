@@ -51,8 +51,8 @@
     width: 310px;
     height: 59px;
     background-color: #fff;
-    border: 2px solid red;
-    color: red;
+    border: 2px solid #FF5555;
+    color: #FF5555;
     font-size: 27px;
     font-weight: 500;
     text-align: center;
@@ -91,7 +91,7 @@
 }
 
 .mypage-tabs a.active {
-    color: #e00;
+    color: #FF5555;
     border: none;
 }
 
@@ -117,9 +117,9 @@
 
 /* ボタンデザイン（必要に応じて追加） */
 .select-btn {
-    border: 2px solid red;
+    border: 2px solid #FF5555;
     background-color: white;
-    color: red;
+    color: #FF5555;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;

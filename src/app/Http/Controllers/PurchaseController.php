@@ -9,12 +9,49 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-    // 商品購入画面（メイン画面）
     public function show($item_id)
     {
         $item = Item::findOrFail($item_id);
-        $user = Auth::user()->fresh();
-        return view('purchase.show', compact('item', 'user'));
+        $user = auth()->user();
+
+        // セッションに一時保存された住所があれば優先
+        $shippingAddress = session('shipping_address', [
+            'postal_code' => $user->postal_code,
+            'address' => $user->address,
+            'building' => $user->building,
+        ]);
+
+        return view('purchase.show', compact('item', 'shippingAddress'));
+    }
+
+    public function editAddress($item_id)
+    {
+        $item = Item::findOrFail($item_id);
+        $user = auth()->user();
+
+        // 現在の住所を初期値に
+        $shippingAddress = session('shipping_address', [
+            'postal_code' => $user->postal_code,
+            'address' => $user->address,
+            'building' => $user->building,
+        ]);
+
+        return view('purchase.address', compact('item', 'shippingAddress'));
+    }
+
+    public function updateAddress(Request $request, $item_id)
+    {
+        $validated = $request->validate([
+            'postal_code' => 'required|string|max:10',
+            'address' => 'required|string|max:255',
+            'building' => 'nullable|string|max:255',
+        ]);
+
+        // セッションに保存
+        session(['shipping_address' => $validated]);
+
+        return redirect()->route('purchase.show', ['item_id' => $item_id])
+                         ->with('status', '配送先を更新しました。');
     }
 
     // 支払い方法選択画面
@@ -22,26 +59,6 @@ class PurchaseController extends Controller
     {
         $item = item::findOrFail($item_id);
         return view('purchase.payment', compact('item'));
-    }
-
-    // 住所変更画面
-    public function editAddress($item_id)
-    {
-        $item = Item::findOrFail($item_id);
-        $user = Auth::user();
-        return view('purchase.address', compact('item', 'user'));
-    }
-
-    // 住所更新処理
-    public function updateAddress(Request $request, $item_id)
-    {
-        $request->validate(['address' => 'required|max:255']);
-        $user = Auth::user();
-        $user->update(['address' => $request->address]);
-        
-        return redirect()
-        ->route('purchase.show', ['item_id' => $item_id])
-        ->with('success', '住所を更新しました！');
     }
 
     // 購入処理（最終）
