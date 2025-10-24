@@ -46,10 +46,8 @@ label {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    /* 縦横比を保って枠内に収める */
 }
 
-/* ファイル選択風のボタンを中央に */
 .upload-btn {
     width: 165px;
     height: 43px;
@@ -63,20 +61,17 @@ label {
     text-align: center;
 }
 
-/* ホバー時 */
 .upload-btn:hover {
     background-color: red;
     color: #fff;
 }
 
-/* 「商品の詳細」部分 */
 .itemduct-detail {
     border-bottom: 2px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 40px;
 }
 
-/* h2（セクションタイトル）をフォーム幅と揃える */
 .item-detail h2,
 .section-title {
     font-size: 27px;
@@ -102,14 +97,12 @@ select {
     box-sizing: border-box;
 }
 
-/* セレクトボックス選択中 */
 select:focus {
     background-color: #5F5F5F;
     color: #fff;
     outline: none;
 }
 
-/* プレースホルダー用非表示 */
 select option[disabled][selected] {
     display: none;
 }
@@ -137,7 +130,6 @@ textarea {
 .input-with-symbol input {
     width: 100%;
     padding-left: 30px;
-    /* ￥分のスペースを確保 */
     height: 40px;
     border: 1px solid #bbb;
     border-radius: 6px;
@@ -145,7 +137,6 @@ textarea {
     box-sizing: border-box;
 }
 
-/* カテゴリーボタン */
 .category-btn {
     height: 32px;
     min-width: 52px;
@@ -166,13 +157,11 @@ textarea {
     color: #fff;
 }
 
-/* 選択中（クリック後） */
 .category-btn.active {
     background-color: red;
     color: #fff;
 }
 
-/* 出品ボタン */
 .btn-submit {
     width: 100%;
     background-color: #FF5555;

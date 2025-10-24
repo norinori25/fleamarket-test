@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <!-- ヘッダー -->
+
     <header class="main-header">
         <div class="container header-inner">
             <div class="header-left">

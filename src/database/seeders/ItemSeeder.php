@@ -49,7 +49,7 @@ class ItemSeeder extends Seeder
                 'brand_name' => '',
                 'condition' => '状態が悪い',
                 'status' => 'on_sale',
-                'image_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+item+Photo.jpg',
+                'image_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg',
             ],
             [
                 'name' => 'ノートPC',

@@ -5,7 +5,6 @@
     position: relative;
 }
 
-/* ヘッダーを横並び */
 .mypage-header {
     display: flex;
     justify-content: space-between;
@@ -15,7 +14,6 @@
     background: white;
 }
 
-/* 左側：プロフィール画像 + 名前 */
 .user-info-left {
     display: flex;
     justify-content: space-between;
@@ -23,13 +21,11 @@
     width: 35%;
 }
 
-/* 名前 */
 .user-info-left p {
     font-size: 40px;
     font-weight: bold;
 }
 
-/* 右側：編集ボタン */
 .user-info-right {
     width: 50%;
     display: flex;
@@ -69,7 +65,6 @@
     background-color: darkred;
 }
 
-/* タブ切替 */
 .mypage-tabs {
     display: flex;
     border-bottom: 3px solid #bbb;
@@ -115,7 +110,6 @@
     color: #888;
 }
 
-/* ボタンデザイン（必要に応じて追加） */
 .select-btn {
     border: 2px solid #FF5555;
     background-color: white;

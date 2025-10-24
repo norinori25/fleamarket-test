@@ -68,25 +68,16 @@
     text-decoration: none;
 }
 
-.nav-right button:hover {
-    text-decoration: underline;
-}
-
-/* サーチフォーム */
 .search-form {
     width: 80%;
-    /* 中央の横幅調整 */
     position: relative;
 }
 
 .search-form input::placeholder {
     color: black;
-    /* プレースホルダーの文字色を黒に */
     opacity: 1;
-    /* ブラウザによってはデフォルトで薄くなるので1にする */
 }
 
-/* サブヘッダー */
 .sub-header {
     background-color: #fff;
     border-bottom: 1px solid #ccc;
@@ -94,7 +85,6 @@
     display: flex;
     align-items: center;
     margin-top: 47px;
-    /* ヘッダー下との間隔 */
 }
 
 .sub-header .tabs a {
@@ -109,13 +99,11 @@
     color: red;
 }
 
-/* 入力欄 */
 .search-form input[type="text"] {
     width: 100%;
     max-width: 600px;
     height: 30px;
     padding: 8px 10px 8px 30px;
-    /* 右側にボタン分の余白 */
     border: 1px solid #ccc;
     border-radius: 2px;
     font-size: 18px;
@@ -123,7 +111,6 @@
     background-color: #fff;
 }
 
-/* ホバー・フォーカス時 */
 .search-form input[type="text"]:hover,
 .search-form input[type="text"]:focus {
     border-color: #aaa;
@@ -131,7 +118,6 @@
     outline: none;
 }
 
-/* ボタンを右端に配置して目立たない */
 .search-form button {
     position: absolute;
     right: 0;
@@ -139,23 +125,18 @@
     transform: translateY(-50%);
     border: none;
     background-color: transparent;
-    /* 溶け込む */
     color: #aaa;
-    /* 目立たない */
     padding: 0 8px;
     cursor: pointer;
     font-size: 16px;
     opacity: 0;
-    /* 初期は非表示 */
     transition: opacity 0.3s, color 0.3s;
 }
 
-/* 入力中にだけ表示 */
 .search-form input[type="text"]:not(:placeholder-shown) + button {
     opacity: 1;
 }
 
-/* 商品一覧 */
 .item-list {
     display: flex;
     flex-wrap: wrap;
@@ -189,23 +170,6 @@
     margin: 10px 10px 10px 0;
 }
 
-/* ログアウトボタンをリンクと同じ見た目にする */
-.nav-right .logout-btn {
-    background: none;
-    /* 背景を完全に消す */
-    border: none;
-    /* 枠線も消す */
-    color: #fff;
-    /* 文字色を白に統一 */
-    font-size: 17px;
-    /* 他リンクと同じサイズに */
-    margin-left: 20px;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 0;
-    /* 余白もリセット */
-}
-
 /* レスポンシブ */
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .main-header .container,
@@ -215,11 +179,9 @@
 
     .search-form input[type="text"] {
         max-width: 350px;
-        /* フォームを少し小さくして横並びを安定 */
     }
 
     .nav-right a {
         margin-left: 15px;
-        /* ナビ間隔を少し狭くする */
     }
 }

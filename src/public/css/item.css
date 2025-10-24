@@ -173,7 +173,6 @@
     margin-bottom: 6px;
 }
 
-/* コメント欄サイズ＆リサイズ可 */
 .comment-input-section textarea {
     width: 100%;
     max-width: 570px;
@@ -221,7 +220,6 @@
     margin: 30px 30px 30px 0;
 }
 
-/* 項目名は太字 */
 .category-title {
     font-weight: bold;
     font-size: 20px;

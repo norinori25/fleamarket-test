@@ -1,5 +1,6 @@
 .register-container, 
-.login-container {
+.login-container,
+.address-edit-container {
     max-width: 680px;
     margin: 30px auto;
     padding: 30px;
@@ -8,7 +9,8 @@
 }
 
 .register-container h1,
-.login-container h1 {
+.login-container h1,
+.address-edit-container h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -55,7 +57,6 @@ input {
 .register-container .btn,
 .login-container .btn {
     box-sizing: border-box;
-    /* パディング込みで幅を揃える */
 }
 
 .error {
@@ -67,9 +68,7 @@ input {
 .login-link a,
 .register-link a {
     text-decoration: none;
-    /* 下線を消す */
     color: #007bff;
-    /* 青文字にする */
     display: block;
     text-align: center;
     margin: 25px;

@@ -34,15 +34,14 @@
         <div class="payment-section">
             <h2>支払い方法</h2>
         </div>
-        <div class="form-section">
-            <form action="{{ route('purchase.store', ['item_id' => $item->id]) }}" method="POST">
-                @csrf
-                <select name="payment_method" class="payment-select" required>
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="convenience">コンビニ払い</option>
-                    <option value="card">カード払い</option>
-                </select>
-            </form>
+         <div class="form-section">
+            <select name="payment_method" id="payment_method" class="payment-select" required>
+    <option value="" disabled selected>選択してください</option>
+    <option value="konbini">コンビニ払い</option>
+    <option value="card">カード払い</option>
+</select>
+
+
         </div>
 
         {{-- 横線 --}}
@@ -78,28 +77,34 @@
             </tr>
             <tr>
                 <th>支払い方法</th>
-                <td id="summary-payment">カード支払い</td>
-            </tr>    
+                <td id="summary-payment">選択してください</td>
+            </tr>
         </table>
 
         <form action="{{ route('checkout') }}" method="POST">
-            @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <button type="submit" class="purchase-btn">購入する</button>
-        </form>
-    </div>
-</div>
+    @csrf
+    <input type="hidden" name="item_id" value="{{ $item->id }}">
+    <input type="hidden" name="payment_method" id="payment_method_hidden" value="card">
+    <button type="submit" class="purchase-btn">購入する</button>
+</form>
 
-<!-- JSで動的反映 -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const select = document.getElementById('payment_method');
+    const hidden = document.getElementById('payment_method_hidden');
     const summary = document.getElementById('summary-payment');
+
+    // 初期表示
+    if (select.value) {
+        summary.textContent = select.options[select.selectedIndex].text;
+        hidden.value = select.value;
+    }
 
     select.addEventListener('change', function() {
         summary.textContent = select.options[select.selectedIndex].text;
+        hidden.value = select.value; // ここで hidden に反映
     });
 });
-
 </script>
+
 @endsection

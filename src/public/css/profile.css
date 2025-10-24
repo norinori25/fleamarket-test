@@ -38,7 +38,6 @@
     z-index: 1;
 }
 
-/* ホバー時 */
 .select-btn:hover {
     background-color: red;
     color: #fff;
@@ -83,7 +82,6 @@ input {
 .register-container .btn,
 .login-container .btn {
     box-sizing: border-box;
-    /* パディング込みで幅を揃える */
 }
 
 .error {
@@ -115,7 +113,5 @@ input {
     top: 0;
     left: 0;
     pointer-events: none;
-        /* クリックは通す */
     z-index: 0;
-        /* ここを明示的に下に */
 }

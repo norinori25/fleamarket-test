@@ -75,19 +75,6 @@ class PurchaseController extends Controller
             return redirect()->route('stripe.convenience', ['item_id' => $item->id]);
         }
 
-        return back()->with('error', '支払い方法を選択してください');
+        return redirect()->route('products.index');
     }
-
-    // 決済成功時
-    public function success()
-    {
-        return view('purchase.success');
-    }
-
-    // 決済キャンセル時
-    public function cancel()
-    {
-        return view('purchase.cancel');
-    }
-
 }
