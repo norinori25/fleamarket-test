@@ -58,7 +58,7 @@ class PurchaseController extends Controller
     public function payment($item_id)
     {
         $item = item::findOrFail($item_id);
-        return view('purchase.payment', compact('item'));
+        return view('purchase.show', compact('item'));
     }
 
     // 購入処理（最終）
@@ -70,9 +70,9 @@ class PurchaseController extends Controller
         if ($paymentMethod === 'card') {
         // Stripeのカード支払いへ
             return redirect()->route('stripe.card', ['item_id' => $item->id]);
-        } elseif ($paymentMethod === 'convenience') {
+        } elseif ($paymentMethod === 'konbini') {
         // Stripeのコンビニ支払いへ
-            return redirect()->route('stripe.convenience', ['item_id' => $item->id]);
+            return redirect()->route('stripe.konbini', ['item_id' => $item->id]);
         }
 
         return redirect()->route('products.index');

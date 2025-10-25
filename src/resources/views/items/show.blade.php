@@ -150,11 +150,13 @@
                     <form action="{{ route('login') }}" method="GET">
                 @endauth
                     @csrf
-                    <textarea name="content" rows="3" required></textarea>
+                    <textarea name="content" rows="3" required>{{ old('content') }}</textarea>
+                    @error('content')
+                        <p class="error">{{ $message }}</p>
+                    @enderror
                     <button type="submit" class="btn-comment">コメントを送信する</button>
-                </form>
+                    </form>
             </div>
-
         </div>
     </div>
 </div>

@@ -31,6 +31,10 @@ class ItemController extends Controller
                 });
             }
 
+            if (auth()->check()) {
+            $query->where('user_id', '!=', auth()->id());
+            }
+
             $items = $query->latest()->get();
         }
 

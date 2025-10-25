@@ -6,34 +6,24 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CommentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        // コメント送信はログインユーザーのみ許可
+        return auth()->check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'content' => 'required|string|max:255',
+            'content' => ['required', 'string', 'max:255'],
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
-            'content.required' => 'コメントを入力してください。',
-            'content.max' => 'コメントは255文字以内で入力してください。',
+            'content.required' => 'コメントを入力してください',
+            'content.max' => 'コメントは255文字以内で入力してください',
         ];
     }
-
 }

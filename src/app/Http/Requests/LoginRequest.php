@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -16,7 +17,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -29,19 +30,16 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    public function authenticate(): void
     {
-        // バリデーションエラー（未入力など）の場合
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
-    }
+        $credentials = $this->only('email', 'password');
 
-    public function failedAuthorization()
-    {
-        // 認証失敗時（メール・パスワードが一致しない場合）
-        throw ValidationException::withMessages([
-            'email' => ['ログイン情報が登録されていません'],
-        ]);
+        if (!Auth::attempt($credentials, $this->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => ['ログイン情報が登録されていません'],
+            ]);
+        }
+
+        $this->session()->regenerate();
     }
 }

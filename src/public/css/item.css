@@ -207,6 +207,10 @@
     cursor: pointer;
 }
 
+.btn-comment {
+    margin-top: 30px;
+}
+
 .btn-purchase:hover,
 .btn-comment:hover {
     background-color: #d93b3b;

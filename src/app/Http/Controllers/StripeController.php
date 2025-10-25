@@ -15,31 +15,31 @@ class StripeController extends Controller
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-       $paymentMethod = $request->input('payment_method', 'card');
+        $paymentMethod = $request->input('payment_method', 'card');
 
-// 日本円なのでそのまま整数でOK
-$unitAmount = $item->price;
+        $unitAmount = $item->price;
 
-$session = Session::create([
-    'payment_method_types' => [$paymentMethod], // 'card' か 'konbini'
-    'line_items' => [[
-        'price_data' => [
-            'currency' => 'jpy',
-            'unit_amount' => $unitAmount,
-            'product_data' => [
-                'name' => $item->name,
-                'images' => [$item->image_url],
-            ],
-        ],
-        'quantity' => 1,
-    ]],
-    'mode' => 'payment',
-    'success_url' => route('items.index'),
-    'cancel_url' => route('items.show', $item->id),
-]);
+        // 現在のngrok URL（毎回変わるので注意）
+        $baseUrl = 'https://rebeca-precosmical-nonengrossingly.ngrok-free.dev';
 
-return redirect($session->url);
+        $session = Session::create([
+            'payment_method_types' => [$paymentMethod],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'unit_amount' => $unitAmount,
+                    'product_data' => [
+                        'name' => $item->name,
+                        'images' => [$item->image_url],
+                    ],
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $baseUrl . '/purchase/success',
+            'cancel_url'  => $baseUrl . '/purchase/cancel',
+        ]);
 
+        return redirect($session->url);
     }
-
 }

@@ -68,6 +68,17 @@
     text-decoration: none;
 }
 
+.nav-right .logout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+
 .search-form {
     width: 80%;
     position: relative;
@@ -168,6 +179,12 @@
     font-size: 20px;
     font-weight: bold;
     margin: 10px 10px 10px 0;
+}
+
+.error {
+    color: red;
+    font-size: 15px;
+    margin-top: 4px;
 }
 
 /* レスポンシブ */

@@ -8,7 +8,6 @@
 .mypage-header {
     display: flex;
     justify-content: space-between;
-    /* 左右に分散 */
     align-items: center;
     width: 100%;
     background: white;

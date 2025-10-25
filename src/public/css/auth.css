@@ -59,12 +59,6 @@ input {
     box-sizing: border-box;
 }
 
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
 .login-link a,
 .register-link a {
     text-decoration: none;
