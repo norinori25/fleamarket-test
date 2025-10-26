@@ -110,8 +110,10 @@
             <div class="comment-item admin-info">
                 <div class="comment-header">
                     <div class="comment-user-img-wrapper">
-                        @if(file_exists(public_path('img/admin.png')))
-                            <img src="{{ asset('img/admin.png') }}" class="profile-img admin-img">
+                        @if ($item->user && $item->user->profile_image)
+                            <img src="{{ asset('storage/' . $item->user->profile_image) }}" class="profile-img">
+                        @else
+                            <img src="{{ asset('img/default.png') }}" class="profile-img">
                         @endif
                     </div>
 
@@ -128,15 +130,27 @@
                     <div class="comment-item {{ $comment->is_admin ? 'admin-comment' : '' }}">
                         <div class="comment-user-info">
                             <div class="comment-user-img-wrapper">
-                                <img src="{{ $comment->is_admin ? asset('img/admin.png') : $comment->user->profile_image_url }}" class="profile-img">
+                                @if ($comment->is_admin)
+                                    {{-- 管理者画像 --}}
+                                    <img src="{{ asset('storage/' . $user->profile_image) }}" class="profile-img">
+                                @elseif (!empty($comment->user->profile_image))
+                                    {{-- ユーザー画像 --}}
+                                    <img src="{{ asset('storage/' . $comment->user->profile_image) }}" class="profile-img">
+                                @else
+                                    {{-- 画像なし：グレー丸だけ表示 --}}
+                                    <div class="profile-img no-image"></div>
+                                @endif
                             </div>
-                            <strong class="user-name">{{ $comment->is_admin ? 'Admin' : $comment->user->name }}</strong>
+                            <strong class="user-name">
+                                {{ $comment->is_admin ? 'Admin' : $comment->user->name }}
+                            </strong>
                             <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
                         </div>
                         <p class="comment-content">{{ $comment->content }}</p>
                     </div>
                 @endforeach
             </div>
+
 
 
             {{-- コメント入力フォーム --}}

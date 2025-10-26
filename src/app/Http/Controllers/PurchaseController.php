@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AddressRequest;
 
 class PurchaseController extends Controller
 {
@@ -39,13 +40,9 @@ class PurchaseController extends Controller
         return view('purchase.address', compact('item', 'shippingAddress'));
     }
 
-    public function updateAddress(Request $request, $item_id)
+    public function updateAddress(AddressRequest $request, $item_id)
     {
-        $validated = $request->validate([
-            'postal_code' => 'required|string|max:10',
-            'address' => 'required|string|max:255',
-            'building' => 'nullable|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         // セッションに保存
         session(['shipping_address' => $validated]);
