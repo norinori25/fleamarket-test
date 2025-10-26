@@ -78,6 +78,11 @@
     color: #ffbf00;
 }
 
+.icon-btn svg {
+    width: 38px;
+    height: 38px;
+}
+
 .count {
     font-size: 16px;
     margin-top: 4px;
@@ -90,25 +95,26 @@
     box-sizing: border-box;
 }
 
+.item-info h2 {
+    font-size: 35px;
+    margin: 40px 0 35px;
+    font-weight: bold;
+}
+
 .comment-list {
     margin-top: 20px;
 }
 
 .comment-item {
     width: 570px;
-    height: 200px;
+    height: auto;
     background-color: #fff;
     padding: 0;
     margin-bottom: 12px;
+    box-sizing: border-box;
 }
 
-.comment-header {
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-}
-
-.admin-comment .comment-header {
+.admin-info .comment-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -135,14 +141,9 @@
     border-radius: 50%;
 }
 
-.comment-user-img {
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 .comment-user-info {
     display: flex;
-    width: 482px;
+    width: 570px;
     height: 70px;
     align-items: center;
     text-align: left;
@@ -154,17 +155,26 @@
     align-items: center;
 }
 
+.comment-time {
+    margin: auto 0 0 auto;
+    font-size: 16px;
+    color: #777;
+}
+
 .comment-content {
-    width: 570px;
-    height: 70px;
+    width: 100%;
+    max-width: 570px;
+    min-height: 70px;
     background-color: #ddd;
     padding: 10px;
     border-radius: 3px;
     font-size: 18px;
-    display: flex;
-    align-items: center;
+    display: block;
     box-sizing: border-box;
     margin: 20px auto;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .comment-input-section label {
@@ -184,7 +194,11 @@
     font-size: 16px;
     box-sizing: border-box;
     display: block;
-    margin: 0;
+}
+
+/* 通常ユーザーのコメント画像の上に余白 */
+.comment-item .comment-user-img-wrapper {
+    margin: 30px 0 15px 0;
 }
 
 .btn-purchase,
@@ -250,17 +264,6 @@
 
 .item-condition {
     color: #000;
-}
-
-.item-info h2 {
-    font-size: 35px;
-    margin: 40px 0 35px;
-    font-weight: bold;
-}
-
-.icon-btn svg {
-    width: 38px;
-    height: 38px;
 }
 
 h2#comment-section {

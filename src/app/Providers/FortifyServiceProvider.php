@@ -8,7 +8,7 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\LoginRequest;
+use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
 
@@ -27,15 +27,34 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
-        Fortify::authenticateUsing(function (Request $request) {
-            $loginRequest = app(LoginRequest::class);
-            $loginRequest->merge($request->all());
-            $loginRequest->validateResolved();
+    Fortify::authenticateUsing(function (\Illuminate\Http\Request $request) {
+    $rules = [
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string'],
+    ];
 
-            $loginRequest->authenticate();
+    $messages = [
+        'email.required' => 'メールアドレスを入力してください',
+        'email.email' => 'メールアドレスはメール形式で入力してください',
+        'password.required' => 'パスワードを入力してください',
+    ];
 
-            return Auth::user();
-        });
+    $request->validate($rules, $messages);
+
+    $credentials = $request->only('email', 'password');
+
+    if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        throw ValidationException::withMessages([
+            'email' => ['ログイン情報が登録されていません'],
+        ]);
+    }
+
+    $request->session()->regenerate();
+
+    return Auth::user();
+});
+
+
 
         // ビューの設定
         Fortify::loginView(fn() => view('auth.login'));

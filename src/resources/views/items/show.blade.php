@@ -107,8 +107,7 @@
             {{-- コメントセクション --}}
             <h2 id="comment-section">コメント（{{ $item->comments_count ?? 0 }}）</h2>
 
-            {{-- admin コメント --}}
-            <div class="comment-item admin-comment">
+            <div class="comment-item admin-info">
                 <div class="comment-header">
                     <div class="comment-user-img-wrapper">
                         @if(file_exists(public_path('img/admin.png')))
@@ -126,19 +125,19 @@
             {{-- 通常コメント --}}
             <div class="comment-list">
                 @foreach ($item->comments as $comment)
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <img src="{{ $comment->user->profile_image_url ?? asset('images/default-user.png') }}" 
-                                alt="{{ $comment->user->name }}" class="comment-user-img">
-                            <div class="comment-user-info">
-                                <strong class="user-name">{{ $comment->user->name }}</strong>
-                                <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
+                    <div class="comment-item {{ $comment->is_admin ? 'admin-comment' : '' }}">
+                        <div class="comment-user-info">
+                            <div class="comment-user-img-wrapper">
+                                <img src="{{ $comment->is_admin ? asset('img/admin.png') : $comment->user->profile_image_url }}" class="profile-img">
                             </div>
+                            <strong class="user-name">{{ $comment->is_admin ? 'Admin' : $comment->user->name }}</strong>
+                            <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
                         </div>
                         <p class="comment-content">{{ $comment->content }}</p>
                     </div>
                 @endforeach
-            </div>  
+            </div>
+
 
             {{-- コメント入力フォーム --}}
             <div class="comment-input-section">

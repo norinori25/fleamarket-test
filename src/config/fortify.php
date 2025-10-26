@@ -157,4 +157,10 @@ return [
         ]),
     ],
 
+    'limiters' => [
+        'login' => null,
+        'two-factor' => null,
+    ],
+
 ];
+

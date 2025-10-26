@@ -25,6 +25,7 @@ class CommentController extends Controller
             'user_id'    => auth()->id(),
             'item_id' => $item->id,
             'content'    => $request->content,
+            'is_admin'  => auth()->id() === $item->user_id,
         ]);
 
         return redirect()->route('items.show', ['item_id' => $item_id])->with('success', 'コメントを投稿しました！');
