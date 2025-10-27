@@ -42,10 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/{item_id}/address', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
     Route::post('/purchase/{item_id}/address', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
     Route::get('/purchase/payment/{item_id}', [PurchaseController::class, 'payment'])->name('purchase.payment');
-    Route::get('/stripe/card/{item_id}', [StripeController::class, 'cardPayment'])->name('stripe.card');
-    Route::get('/stripe/konbini/{item_id}', [StripeController::class, 'konbiniPayment'])->name('stripe.konbini');
     Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
-    
     Route::post('/item/{item_id}/comments', [CommentController::class, 'store'])
     ->middleware('auth')
     ->name('comments.store');

@@ -35,11 +35,16 @@
             <h2>支払い方法</h2>
         </div>
         <div class="form-section">
-            <select name="payment_method" id="payment_method" class="payment-select" required>
+    <form action="{{ route('purchase.store', ['item_id' => $item->id]) }}" method="POST">
+        @csrf
+            <select name="payment_method" id="payment_method" class="payment-select" >
                 <option value="" disabled selected>選択してください</option>
                 <option value="konbini">コンビニ払い</option>
                 <option value="card">カード払い</option>
             </select>
+            @error('payment_method')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         {{-- 横線 --}}
@@ -60,6 +65,10 @@
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
+            <input type="hidden" name="shipping_address_id" value="1">
+            @error('shipping_address_id')
+                    <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         {{-- 横線 --}}
@@ -79,12 +88,10 @@
             </tr>
         </table>
 
-        <form action="{{ route('checkout') }}" method="POST">
-    @csrf
-    <input type="hidden" name="item_id" value="{{ $item->id }}">
-    <input type="hidden" name="payment_method" id="payment_method_hidden" value="card">
-    <button type="submit" class="purchase-btn">購入する</button>
-</form>
+        <input type="hidden" name="item_id" value="{{ $item->id }}">
+        <button type="submit" class="purchase-btn">購入する</button>
+    </div>
+    </form>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -100,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     select.addEventListener('change', function() {
         summary.textContent = select.options[select.selectedIndex].text;
-        hidden.value = select.value; // ここで hidden に反映
     });
 });
 </script>
