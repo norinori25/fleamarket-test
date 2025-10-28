@@ -29,21 +29,33 @@
             </div>
             <input type="file" name="profile_image" id="profile_image" style="display:none;">
             <button type="button" class="select-btn" onclick="document.getElementById('profile_image').click()">画像を選択する</button>
+            @error('profile_image')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="name">ユーザー名</label>
             <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}">
+            @error('name')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="postal_code">郵便番号</label>
             <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', $user->postal_code) }}">
+            @error('postal_code')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="address">住所</label>
             <input type="text" name="address" id="address" value="{{ old('address', $user->address) }}">
+            @error('address')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">

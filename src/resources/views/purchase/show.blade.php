@@ -65,7 +65,6 @@
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
-            <input type="hidden" name="shipping_address_id" value="1">
             @error('shipping_address_id')
                     <p class="error">{{ $message }}</p>
             @enderror
