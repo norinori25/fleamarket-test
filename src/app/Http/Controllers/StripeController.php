@@ -19,15 +19,14 @@ class StripeController extends Controller
 
         $unitAmount = $item->price;
 
-        // 現在のngrok URL（毎回変わるので注意）
-        $baseUrl = 'https://rebeca-precosmical-nonengrossingly.ngrok-free.dev';
+        $baseUrl = env('NGROK_URL');
 
-        $session = Session::create([
+       $session = Session::create([
             'payment_method_types' => [$paymentMethod],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
-                    'unit_amount' => $unitAmount,
+                    'unit_amount' => (int)$unitAmount,
                     'product_data' => [
                         'name' => $item->name,
                         'images' => [$item->image_url],
@@ -35,10 +34,11 @@ class StripeController extends Controller
                 ],
                 'quantity' => 1,
             ]],
-            'mode' => 'payment',
-            'success_url' => $baseUrl . '/purchase/success',
-            'cancel_url'  => $baseUrl . '/purchase/cancel',
-        ]);
+        'mode' => 'payment',
+        'success_url' => env('NGROK_URL') . '/purchase/success',
+        'cancel_url'  => env('NGROK_URL') . '/purchase/cancel',
+    ]);
+
 
         return redirect($session->url);
     }

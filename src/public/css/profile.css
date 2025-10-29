@@ -84,12 +84,6 @@ input {
     box-sizing: border-box;
 }
 
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
 .image-wrapper {
     width: 150px;
     height: 150px;

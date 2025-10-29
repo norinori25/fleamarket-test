@@ -65,6 +65,7 @@
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
+            <input type="hidden" name="shipping_address_id" value="1">
             @error('shipping_address_id')
                     <p class="error">{{ $message }}</p>
             @enderror
@@ -107,6 +108,33 @@ document.addEventListener('DOMContentLoaded', function() {
     select.addEventListener('change', function() {
         summary.textContent = select.options[select.selectedIndex].text;
     });
+});
+</script>
+<script>
+document.querySelector('form').addEventListener('submit', function(e){
+    e.preventDefault(); // 通常送信をキャンセル
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "{{ route('checkout') }}";
+
+    const itemInput = document.createElement('input');
+    itemInput.name = 'item_id';
+    itemInput.value = "{{ $item->id }}";
+    form.appendChild(itemInput);
+
+    const methodInput = document.createElement('input');
+    methodInput.name = 'payment_method';
+    methodInput.value = document.getElementById('payment_method').value;
+    form.appendChild(methodInput);
+
+    const csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = '_token';
+    csrf.value = "{{ csrf_token() }}";
+    form.appendChild(csrf);
+
+    document.body.appendChild(form);
+    form.submit();
 });
 </script>
 

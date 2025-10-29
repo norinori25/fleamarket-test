@@ -10,4 +10,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
   && mv composer.phar /usr/local/bin/composer \
   && composer self-update
 
+RUN echo "upload_max_filesize=10M" > /usr/local/etc/php/conf.d/uploads.ini \
+  && echo "post_max_size=12M" >> /usr/local/etc/php/conf.d/uploads.ini
+
 WORKDIR /var/www

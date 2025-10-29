@@ -22,7 +22,7 @@
         @csrf
         <div class="form-group">
             <label>郵便番号</label>
-            <input type="text" name="postal_code" value="{{ old('postal_code', $shippingAddress['postal_code']) }}">
+            <input type="text" name="postal_code" value="{{ old('postal_code', $shippingAddress['postal_code'] ?? '') }}">
             @error('postal_code')
                 <p class="error">{{ $message }}</p>
             @enderror
@@ -30,7 +30,7 @@
 
         <div class="form-group">
             <label>住所</label>
-            <input type="text" name="address" value="{{ old('address', $shippingAddress['address']) }}">
+            <input type="text" name="address" value="{{ old('address', $shippingAddress['address'] ?? '') }}">
             @error('address')
                 <p class="error">{{ $message }}</p>
             @enderror
@@ -38,8 +38,9 @@
 
         <div class="form-group">
             <label>建物名</label>
-            <input type="text" name="building" value="{{ old('building', $shippingAddress['building']) }}">
+            <input type="text" name="building" value="{{ old('building', $shippingAddress['building'] ?? '') }}">
         </div>
+
 
         <button type="submit" class="btn">更新する</button>
     </form>

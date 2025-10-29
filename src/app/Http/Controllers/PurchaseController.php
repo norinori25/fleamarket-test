@@ -63,13 +63,12 @@ class PurchaseController extends Controller
         $item = Item::findOrFail($item_id);
         $paymentMethod = $request->input('payment_method');
 
-        if ($paymentMethod === 'card') {
-            return redirect()->route('stripe.card', ['item_id' => $item->id]);
-        } elseif ($paymentMethod === 'konbini') {
-            return redirect()->route('stripe.konbini', ['item_id' => $item->id]);
+        if (!in_array($paymentMethod, ['card', 'konbini'])) {
+            return back()->withErrors(['payment_method' => '支払い方法を正しく選択してください。'])->withInput();
         }
 
-        return back()->withErrors(['payment_method' => '支払い方法を正しく選択してください。'])->withInput();
+        return view('purchase.redirect_checkout', compact('item', 'paymentMethod'));
     }
+
 
 }

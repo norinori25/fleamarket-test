@@ -17,7 +17,7 @@ class ProfileRequest extends FormRequest
             'name' => ['required', 'string', 'max:20'],
             'postal_code' => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address' => ['required', 'string', 'max:255'],
-            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png'],
         ];
     }
 
@@ -31,7 +31,6 @@ class ProfileRequest extends FormRequest
             'address.required' => '住所を入力してください。',
             'profile_image.image' => '画像ファイルを選択してください',
             'profile_image.mimes' => 'アップロードできる画像は写真（JPEGまたはPNG）のみです',
-            'profile_image.max' => '画像のサイズは2MB以内にしてください',
         ];
     }
 }
