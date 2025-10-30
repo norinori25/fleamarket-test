@@ -18,7 +18,6 @@
 <div class="purchase-container">
 
     <div class="left-column">
-        {{-- 商品情報 --}}
         <div class="item-info">
             <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
             <div class="item-detail">
@@ -35,13 +34,10 @@
             <h2>支払い方法</h2>
         </div>
         <div class="form-section">
-    <form action="{{ route('checkout') }}" method="POST">
-            @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <select name="payment_method" id="payment_method" class="payment-select">
+            <select name="payment_method" id="payment_method" form="purchase-form" class="payment-select">
                 <option value="" disabled selected>選択してください</option>
-                <option value="konbini">コンビニ払い</option>
-                <option value="card">カード払い</option>
+                <option value="konbini" {{ old('payment_method') === 'konbini' ? 'selected' : '' }}>コンビニ払い</option>
+                <option value="card" {{ old('payment_method') === 'card' ? 'selected' : '' }}>カード払い</option>
             </select>
             @error('payment_method')
                 <p class="error">{{ $message }}</p>
@@ -51,7 +47,7 @@
         {{-- 横線 --}}
         <div class="divider"></div>
 
-        {{-- 住所セクション --}}
+        {{-- 住所 --}}
         <div class="address-section">
             <div class="address-header">
                 <h2>配送先</h2>
@@ -60,16 +56,16 @@
                 <a href="{{ route('purchase.address.edit', ['item_id' => $item->id]) }}">変更する</a>
             </div>
         </div>
-         <div class="address-content">
+        <div class="address-content">
             <p>〒{{ $shippingAddress['postal_code'] ?? '' }}</p>
             <p>{{ $shippingAddress['address'] ?? '' }}</p>
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
-            <input type="hidden" name="shipping_address_id" value="1">
+            <input type="hidden" name="shipping_address_id" value="1" form="purchase-form">
             @error('shipping_address_id')
                 <p class="error">{{ $message }}</p>
-                    @enderror
+            @enderror
         </div>
 
         {{-- 横線 --}}
@@ -78,32 +74,34 @@
 
     {{-- 右側の購入概要テーブル --}}
     <div class="right-column">
-        <table class="purchase-summary">
-            <tr>
-                <th>商品代金</th>
-                <td>¥{{ number_format($item->price) }}</td>
-            </tr>
-            <tr>
-                <th>支払い方法</th>
-                <td id="summary-payment">選択してください</td>
-            </tr>
-        </table>
+        <form id="purchase-form" action="{{ route('checkout') }}" method="POST">
+            @csrf
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
+           
+            <table class="purchase-summary">
+                <tr>
+                    <th>商品代金</th>
+                    <td>¥{{ number_format($item->price) }}</td>
+                </tr>
+                <tr>
+                    <th>支払い方法</th>
+                    <td id="summary-payment">選択してください</td>
+                </tr>
+            </table>
 
-        <button type="submit" class="purchase-btn">購入する</button>
+            <button type="submit" class="purchase-btn">購入する</button>
+        </form>
     </div>
-    </form>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const select = document.getElementById('payment_method');
-    const hidden = document.getElementById('payment_method_hidden');
     const summary = document.getElementById('summary-payment');
 
     // 初期表示
     if (select.value) {
         summary.textContent = select.options[select.selectedIndex].text;
-        hidden.value = select.value;
     }
 
     select.addEventListener('change', function() {

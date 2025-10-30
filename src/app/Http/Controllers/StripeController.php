@@ -6,22 +6,25 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Item;
+use App\Http\Requests\PurchaseRequest;
 
 class StripeController extends Controller
 {
-    public function checkout(Request $request)
+    public function checkout(PurchaseRequest $request)
     {
+
         $item = Item::findOrFail($request->item_id);
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $paymentMethod = $request->input('payment_method');
+        $shippingAddressId = $request->input('shipping_address_id');
 
-        $paymentMethod = $request->input('payment_method', 'card');
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $unitAmount = $item->price;
 
-        $baseUrl = env('NGROK_URL');
+        $baseUrl = config('app.url');
 
-       $session = Session::create([
+        $session = Session::create([
             'payment_method_types' => [$paymentMethod],
             'line_items' => [[
                 'price_data' => [
@@ -34,11 +37,10 @@ class StripeController extends Controller
                 ],
                 'quantity' => 1,
             ]],
-        'mode' => 'payment',
-        'success_url' => env('NGROK_URL') . '/purchase/success',
-        'cancel_url'  => env('NGROK_URL') . '/purchase/cancel',
-    ]);
-
+            'mode' => 'payment',
+            'success_url' => $baseUrl . '/success',
+            'cancel_url'  => $baseUrl . '/cancel',
+        ]);
 
         return redirect($session->url);
     }

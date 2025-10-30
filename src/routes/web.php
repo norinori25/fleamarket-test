@@ -14,12 +14,7 @@ use Stripe\Stripe;
 // 一般公開ルート
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/items', [itemController::class, 'index'])->name('items.index');
-
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('items.show');
-
-Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
-Route::get('/purchase/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
-
 
 // ログイン必須ルート
 Route::middleware('auth')->group(function () {
