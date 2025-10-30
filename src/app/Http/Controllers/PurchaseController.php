@@ -51,13 +51,6 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.show', ['item_id' => $item_id])->with('status', '配送先を更新しました。');
     }
 
-    // 支払い方法選択画面
-    public function payment($item_id)
-    {
-        $item = Item::findOrFail($item_id);
-        return view('purchase.show', compact('item'));
-    }
-
     public function store(PurchaseRequest $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
@@ -67,7 +60,7 @@ class PurchaseController extends Controller
             return back()->withErrors(['payment_method' => '支払い方法を正しく選択してください。'])->withInput();
         }
 
-        return view('purchase.redirect_checkout', compact('item', 'paymentMethod'));
+        return view('purchase.show', compact('item', 'paymentMethod'));
     }
 
 

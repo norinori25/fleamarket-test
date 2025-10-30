@@ -35,9 +35,10 @@
             <h2>支払い方法</h2>
         </div>
         <div class="form-section">
-    <form action="{{ route('purchase.store', ['item_id' => $item->id]) }}" method="POST">
-        @csrf
-            <select name="payment_method" id="payment_method" class="payment-select" >
+    <form action="{{ route('checkout') }}" method="POST">
+            @csrf
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
+            <select name="payment_method" id="payment_method" class="payment-select">
                 <option value="" disabled selected>選択してください</option>
                 <option value="konbini">コンビニ払い</option>
                 <option value="card">カード払い</option>
@@ -59,16 +60,16 @@
                 <a href="{{ route('purchase.address.edit', ['item_id' => $item->id]) }}">変更する</a>
             </div>
         </div>
-        <div class="address-content">
-            <p>〒{{ $shippingAddress['postal_code'] }}</p>
-            <p>{{ $shippingAddress['address'] }}</p>
+         <div class="address-content">
+            <p>〒{{ $shippingAddress['postal_code'] ?? '' }}</p>
+            <p>{{ $shippingAddress['address'] ?? '' }}</p>
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
             <input type="hidden" name="shipping_address_id" value="1">
             @error('shipping_address_id')
-                    <p class="error">{{ $message }}</p>
-            @enderror
+                <p class="error">{{ $message }}</p>
+                    @enderror
         </div>
 
         {{-- 横線 --}}
@@ -88,10 +89,10 @@
             </tr>
         </table>
 
-        <input type="hidden" name="item_id" value="{{ $item->id }}">
         <button type="submit" class="purchase-btn">購入する</button>
     </div>
     </form>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -108,33 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
     select.addEventListener('change', function() {
         summary.textContent = select.options[select.selectedIndex].text;
     });
-});
-</script>
-<script>
-document.querySelector('form').addEventListener('submit', function(e){
-    e.preventDefault(); // 通常送信をキャンセル
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = "{{ route('checkout') }}";
-
-    const itemInput = document.createElement('input');
-    itemInput.name = 'item_id';
-    itemInput.value = "{{ $item->id }}";
-    form.appendChild(itemInput);
-
-    const methodInput = document.createElement('input');
-    methodInput.name = 'payment_method';
-    methodInput.value = document.getElementById('payment_method').value;
-    form.appendChild(methodInput);
-
-    const csrf = document.createElement('input');
-    csrf.type = 'hidden';
-    csrf.name = '_token';
-    csrf.value = "{{ csrf_token() }}";
-    form.appendChild(csrf);
-
-    document.body.appendChild(form);
-    form.submit();
 });
 </script>
 
