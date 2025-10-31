@@ -19,6 +19,9 @@
                 <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
                 <p class="item-name">{{ $item->name }}</p>
             </a>
+            @if($item->status === 'sold')
+                <span class="badge sold">SOLD</span>
+            @endif
         </div>
     @endforeach
 </div>

@@ -57,5 +57,9 @@ class Item extends Model
         ->withTimestamps();
     }
 
+    public function purchase()
+    {
+    return $this->hasOne(Purchase::class);
+    }
 
 }
