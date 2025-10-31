@@ -39,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/item/{item_id}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::post('/payment', [StripeController::class, 'payment'])->name('purchase.payment');
-    Route::get('/success', [StripeController::class, 'success'])->name('success');
-    Route::get('/cancel', [StripeController::class, 'cancel'])->name('cancel');
+    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])->name('purchase.success');
+    Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
 
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

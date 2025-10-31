@@ -12,9 +12,9 @@ class StripeController extends Controller
 {
     public function checkout(PurchaseRequest $request)
     {
+        session(['purchase_item_id' => $request->item_id]);
 
         $item = Item::findOrFail($request->item_id);
-
         $paymentMethod = $request->input('payment_method');
         $shippingAddressId = $request->input('shipping_address_id');
 
@@ -32,7 +32,7 @@ class StripeController extends Controller
                     'unit_amount' => (int)$unitAmount,
                     'product_data' => [
                         'name' => $item->name,
-                        'images' => [$item->image_url],
+                        'images' => [asset('storage/product_img/' . $item->image_url)],
                     ],
                 ],
                 'quantity' => 1,
@@ -44,4 +44,22 @@ class StripeController extends Controller
 
         return redirect($session->url);
     }
+
+    public function success(Request $request)
+    {
+        $user = auth()->user();
+        $itemId = session('purchase_item_id');
+
+        if ($user && $itemId) {
+            // 購入履歴を保存
+            $user->purchasedItems()->attach($itemId);
+
+            // 商品のステータス更新（売り切れ等がある場合）
+            Item::where('id', $itemId)->update(['status' => 'sold']);
+        }
+
+        return redirect('/mypage')
+        ->with('message', '購入が完了しました！');
+    }
+
 }

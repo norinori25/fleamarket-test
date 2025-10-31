@@ -59,11 +59,9 @@ class User extends Authenticatable
         return $this->hasMany(Item::class);
     }
 
-    public function purchaseditems()
+    public function purchasedItems()
     {
-        return $this->belongsToMany(Item::class, 'purchases', 'user_id', 'item_id')
-                ->withTimestamps()
-                ->orderBy('created_at', 'desc');
-
+        return $this->belongsToMany(Item::class, 'purchases')
+        ->withTimestamps();
     }
 }
