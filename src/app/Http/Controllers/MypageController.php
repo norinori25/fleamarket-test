@@ -19,8 +19,8 @@ class MypageController extends Controller
             // 出品した商品
             $items = $user->items;
         } else {
-            // 購入した商品
-            $items = $user->purchaseditems;
+            // 購入履歴を Purchase 経由で取得
+            $purchases = $user->purchases()->with('item')->get();
         }
 
         return view('mypage.index', compact('user', 'items'));

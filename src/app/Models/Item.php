@@ -51,15 +51,9 @@ class Item extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function buyers()
+    public function purchases()
     {
-        return $this->belongsToMany(User::class, 'purchases')
-        ->withTimestamps();
-    }
-
-    public function purchase()
-    {
-    return $this->hasOne(Purchase::class);
+    return $this->hasMany(Purchase::class);
     }
 
 }
