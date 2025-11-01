@@ -153,3 +153,19 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+.badge.pending {
+    background: orange;
+    color: white;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.badge.paid {
+    background: #28a745;
+    color: white;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}

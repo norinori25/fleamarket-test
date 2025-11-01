@@ -15,9 +15,8 @@ class MypageController extends Controller
         $page = $request->query('page', 'sell');
 
         if ($page === 'sell') {
-            // 出品した商品
             $items = $user->items()->get();
-            $purchases = collect(); // 空コレクション
+            $purchases = collect();
         } else {
             // 購入履歴
             $purchases = $user->purchases()->with('item')->get();

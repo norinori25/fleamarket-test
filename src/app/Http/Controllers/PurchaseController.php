@@ -50,7 +50,7 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.show', ['item_id' => $item_id])->with('status', '配送先を更新しました。');
     }
 
-    public function store(PurchaseRequest $request, $item_id)
+    public function store(Request $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
         $user = Auth::user();
@@ -72,7 +72,8 @@ class PurchaseController extends Controller
 
         // ✅ purchase_id をセッションに保存して Stripe へ
         session(['purchase_id' => $purchase->id]);
-
-        return redirect()->route('checkout')->with('payment_method', $request->payment_method);
+        session(['purchase_payment_method' => $request->payment_method]);
+        
+        return redirect()->route('checkout');
     }
 }

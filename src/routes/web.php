@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CommentController;
 use Stripe\Stripe;
+use App\Http\Controllers\StripeWebhookController;
+
 
 // 一般公開ルート
 Route::get('/', [ItemController::class, 'index'])->name('home');
@@ -40,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('/stripe/cancel/{item_id}', [StripeController::class, 'cancel'])->name('stripe.cancel');
-    
+    Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
+
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

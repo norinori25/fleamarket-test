@@ -8,23 +8,15 @@ use Stripe\Checkout\Session;
 use App\Models\Item;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Purchase;
 
 class StripeController extends Controller
 {
     public function checkout(PurchaseRequest $request)
     {
+        $user = Auth::user();
         $item = Item::findOrFail($request->item_id);
         $paymentMethod = $request->input('payment_method');
-
-        // 🔐 購入データをセッションに保存
-        session([
-            'purchase' => [
-                'item_id' => $item->id,
-                'postal_code' => $request->postal_code,
-                'address' => $request->address,
-                'building' => $request->building,
-            ]
-        ]);
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -46,34 +38,27 @@ class StripeController extends Controller
             'cancel_url'  => route('stripe.cancel', ['item_id' => $item->id]),
         ]);
 
+        // ✅ 購入データを先に pending で作成
+        $purchase = Purchase::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'quantity' => 1,
+            'postal_code' => $request->postal_code,
+            'address' => $request->address,
+            'building' => $request->building,
+            'status' => 'pending',
+            'stripe_session_id' => $session->id,
+        ]);
+
+        session(['purchase_id' => $purchase->id]);
+
         return redirect($session->url);
     }
 
     public function success()
     {
-        $user = Auth::user();
-        $purchase = session('purchase');
-
-        if ($user && $purchase) {
-
-            // 🧾 購入履歴登録
-            $user->purchases()->create([
-                'item_id' => $purchase['item_id'],
-                'quantity' => 1,
-                'postal_code' => $purchase['postal_code'],
-                'address' => $purchase['address'],
-                'building' => $purchase['building'],
-                'status' => 'paid',
-            ]);
-
-            // 🏷️ 商品を売却状態へ
-            Item::where('id', $purchase['item_id'])->update(['status' => 'sold']);
-
-            session()->forget('purchase');
-        }
-
         return redirect()->route('mypage')
-            ->with('message', '購入が完了しました！');
+            ->with('message', '購入処理中です。支払い完了後に商品が確保されます。');
     }
 
     public function cancel($item_id)

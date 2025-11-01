@@ -19,7 +19,7 @@
     <div class="mypage-header">
         <!-- 左側：プロフィール画像 + 名前 -->
         <div class="user-info-left">
-            <img src="{{ $user->profile_image? asset('storage/' . $user->profile_image): asset('img/default_user.png') }}" class="profile-img">
+            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('img/default_user.png') }}" class="profile-img">
             <p>{{ $user->name }}</p>
         </div>
 
@@ -32,64 +32,88 @@
 
 <!-- タブ切替 -->
 <div class="mypage-tabs">
-    <a href="{{ url('/mypage?page=sell') }}" class="{{ request('page') === 'sell' ? 'active' : '' }}">
+    <a href="{{ url('/mypage?page=sell') }}" class="{{ $page === 'sell' ? 'active' : '' }}">
         出品した商品
     </a>
-    <a href="{{ url('/mypage?page=buy') }}" class="{{ request('page') === 'buy' ? 'active' : '' }}">
+    <a href="{{ url('/mypage?page=buy') }}" class="{{ $page === 'buy' ? 'active' : '' }}">
         購入した商品
     </a>
 </div>
 
-
 <!-- 商品一覧 -->
 <div class="item-list">
-    <!-- 商品一覧 -->
-<div class="item-list">
-    @foreach ($items as $item)
-        <div class="item-item">
-            <img src="{{ $item->image_url ?? asset('img/default_item.png') }}"
-                class="item-image"
-                data-item-id="{{ $item->id }}">
-            <p class="item-name">{{ $item->name }}</p>
 
-            @if($item->status === 'sold')
-                <span class="badge sold">SOLD</span>
-            @endif
-        </div>
+    {{-- ✅ 出品した商品 --}}
+    @if($page === 'sell')
+        @forelse ($items as $item)
+            <div class="item-item">
+                <img src="{{ asset('storage/product_img/' . $item->image_url) }}" class="item-image" data-item-id="{{ $item->id }}">
+                <p class="item-name">{{ $item->name }}</p>
 
-        @if($page === 'buy' && $item->pivot && $item->pivot->address)
-            <!-- モーダル -->
-            <div id="modal-{{ $item->id }}" class="modal-backdrop" style="display:none;">
-                <div class="modal-content">
-                    <h3>配送先情報</h3>
-                    <p>〒{{ $item->pivot->address->postal_code }}</p>
-                    <p>{{ $item->pivot->address->address }}</p>
-                    @if($item->pivot->address->building)
-                        <p>{{ $item->pivot->address->building }}</p>
-                    @endif
-                    <button class="modal-close-btn">閉じる</button>
+                @if($item->status === 'sold')
+                    <span class="badge sold">SOLD</span>
+                @else
+                    <span class="badge available">販売中</span>
+                @endif
+            </div>
+        @empty
+            <p>出品した商品はありません。</p>
+        @endforelse
+    @endif
+
+    {{-- ✅ 購入した商品 --}}
+    @if($page === 'buy')
+        @forelse ($purchases as $purchase)
+            <div class="item-item">
+                <img src="{{ asset('storage/product_img/' . $purchase->item->image_url) }}"
+                     class="item-image"
+                     data-item-id="{{ $purchase->item->id }}">
+
+                <p class="item-name">{{ $purchase->item->name }}</p>
+
+                {{-- ✅ 支払いステータス表示 --}}
+                @if($purchase->status === 'pending')
+                    <span class="badge pending">支払い待ち</span>
+                @elseif($purchase->status === 'paid')
+                    <span class="badge paid">支払い済み</span>
+                @endif
+
+                {{-- SOLD 表示 --}}
+                @if($purchase->item->status === 'sold')
+                    <span class="badge sold">SOLD</span>
+                @endif
+
+                <!-- ✅ モーダル(配送先) -->
+                <div id="modal-{{ $purchase->item->id }}" class="modal-backdrop" style="display:none;">
+                    <div class="modal-content">
+                        <h3>配送先情報</h3>
+                        <p>〒{{ $purchase->postal_code }}</p>
+                        <p>{{ $purchase->address }}</p>
+                        @if($purchase->building)
+                            <p>{{ $purchase->building }}</p>
+                        @endif
+                        <button class="modal-close-btn">閉じる</button>
+                    </div>
                 </div>
             </div>
-        @endif
-    @endforeach
-</div>
-
+        @empty
+            <p>購入した商品はありません。</p>
+        @endforelse
+    @endif
 
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 商品画像クリックでモーダル表示
     const items = document.querySelectorAll('.item-image');
     items.forEach(img => {
         img.addEventListener('click', function() {
             const itemId = this.dataset.itemId;
             const modal = document.getElementById('modal-' + itemId);
-            if(modal) modal.style.display = 'flex';
+            if (modal) modal.style.display = 'flex';
         });
     });
 
-    // モーダル閉じるボタン
     const closeButtons = document.querySelectorAll('.modal-close-btn');
     closeButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -99,5 +123,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</div>
 @endsection
