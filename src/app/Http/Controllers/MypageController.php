@@ -12,18 +12,18 @@ class MypageController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-
         $page = $request->query('page', 'sell');
 
         if ($page === 'sell') {
             // 出品した商品
-            $items = $user->items;
+            $items = $user->items()->get();
+            $purchases = collect(); // 空コレクション
         } else {
-            // 購入履歴を Purchase 経由で取得
+            // 購入履歴
             $purchases = $user->purchases()->with('item')->get();
+            $items = collect(); // 空コレクション
         }
 
-        return view('mypage.index', compact('user', 'items'));
+        return view('mypage.index', compact('user', 'page', 'items', 'purchases'));
     }
-
 }

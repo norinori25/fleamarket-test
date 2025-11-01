@@ -43,10 +43,15 @@
 
 <!-- 商品一覧 -->
 <div class="item-list">
-    @forelse ($items as $item)
+    <!-- 商品一覧 -->
+<div class="item-list">
+    @foreach ($items as $item)
         <div class="item-item">
-            <img src="{{ $item->image_url ?? asset('img/default_item.png') }}" alt="{{ $item->name }}" class="item-image" data-item-id="{{ $item->id }}">
+            <img src="{{ $item->image_url ?? asset('img/default_item.png') }}"
+                class="item-image"
+                data-item-id="{{ $item->id }}">
             <p class="item-name">{{ $item->name }}</p>
+
             @if($item->status === 'sold')
                 <span class="badge sold">SOLD</span>
             @endif
@@ -66,9 +71,10 @@
                 </div>
             </div>
         @endif
-        @empty
-            <p class="no-items">商品がありません。</p>
-    @endforelse
+    @endforeach
+</div>
+
+
 </div>
 
 <script>
