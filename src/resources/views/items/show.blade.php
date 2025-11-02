@@ -82,7 +82,7 @@
             {{-- 商品説明 --}}
             <div class="item-description">
                 <h2>商品説明</h2>
-                <p class="item-description">{{ $item->description }}</p>
+                <p>{{ $item->description }}</p>
             </div>
 
             {{-- 商品情報 --}}
@@ -107,24 +107,7 @@
             {{-- コメントセクション --}}
             <h2 id="comment-section">コメント（{{ $item->comments_count ?? 0 }}）</h2>
 
-            <div class="comment-item admin-info">
-                <div class="comment-header">
-                    <div class="comment-user-img-wrapper">
-                        @if ($item->user && $item->user->profile_image)
-                            <img src="{{ asset('storage/' . $item->user->profile_image) }}" class="profile-img">
-                        @else
-                            <img src="{{ asset('img/default.png') }}" class="profile-img">
-                        @endif
-                    </div>
-
-                    <div class="comment-user-info">
-                        <strong class="user-name">admin</strong>
-                    </div>
-                </div>
-                <p class="comment-content">こちらにコメントが入ります。</p>
-            </div>
-
-            {{-- 通常コメント --}}
+            {{-- コメント --}}
             <div class="comment-list">
                 @foreach ($item->comments as $comment)
                     <div class="comment-item {{ $comment->is_admin ? 'admin-comment' : '' }}">
@@ -141,17 +124,15 @@
                                     <div class="profile-img no-image"></div>
                                 @endif
                             </div>
-                            <strong class="user-name">
+                            <p class="user-name">
                                 {{ $comment->is_admin ? 'Admin' : $comment->user->name }}
-                            </strong>
-                            <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
+                            </p>
+                            <p class="comment-time">{{ $comment->created_at->diffForHumans() }}</p>
                         </div>
                         <p class="comment-content">{{ $comment->content }}</p>
                     </div>
                 @endforeach
             </div>
-
-
 
             {{-- コメント入力フォーム --}}
             <div class="comment-input-section">

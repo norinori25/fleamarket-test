@@ -51,8 +51,7 @@
     @if($page === 'buy')
         @forelse ($purchases as $purchase)
             <div class="item-item">
-                <img src="{{ Str::startsWith($item->image_url, 'http')
-                    ? $item->image_url : asset('storage/item_images/' . $item->image_url) }}" alt="{{ $item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">
+                <img src="{{ Str::startsWith($purchase->item->image_url, 'http')? $purchase->item->image_url : asset('storage/item_images/' . $purchase->item->image_url) }}" alt="{{ $purchase->item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">
                 <p class="item-name">{{ $purchase->item->name }}</p>
 
                 {{-- ✅ 支払いステータス表示 --}}
@@ -85,12 +84,14 @@
         @endforelse
     @endif
 
-     {{-- ✅ 出品した商品 --}}
+    {{-- ✅ 出品した商品 --}}
     @if($page === 'sell')
         @forelse ($items as $item)
             <div class="item-item">
-                <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-image" data-item-id="{{ $item->id }}">
-                <p class="item-name">{{ $item->name }}</p>
+                <a href="{{ route('items.show', $item->id) }}">
+                    <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-image"></a>
+                    <p class="item-name">{{ $item->name }}</p>
+                </a>
 
                 @if($item->status === 'sold')
                     <span class="badge sold">SOLD</span>

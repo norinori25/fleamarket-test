@@ -25,14 +25,20 @@ class StripeWebhookController extends Controller
         }
 
         if ($event->type === 'checkout.session.completed') {
+            \Log::info('checkout.session.completed received!');
+
             $session = $event->data->object;
             $purchase = Purchase::where('stripe_session_id', $session->id)->first();
 
             if ($purchase) {
                 $purchase->update(['status' => 'paid']);
                 $purchase->item->update(['status' => 'sold']);
+                \Log::info('Purchase and Item updated: ' . $purchase->id);
+            } else {
+                \Log::warning('Purchase not found for session: ' . $session->id);
             }
         }
+
 
         return response()->json(['status' => 'success']);
     }

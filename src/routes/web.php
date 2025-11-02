@@ -17,6 +17,7 @@ use App\Http\Controllers\StripeWebhookController;
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/items', [itemController::class, 'index'])->name('items.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('items.show');
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
 
 // ログイン必須ルート
 Route::middleware('auth')->group(function () {
@@ -42,7 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('/stripe/cancel/{item_id}', [StripeController::class, 'cancel'])->name('stripe.cancel');
-    Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
 
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
