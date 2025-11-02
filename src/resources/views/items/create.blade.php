@@ -18,7 +18,7 @@
 <div class="create-container">
     <h1>商品の出品</h1>
 
-    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
 
         <div class="form-group">
@@ -28,6 +28,9 @@
                 <input type="file" name="image" id="imageUpload" accept="image/*" hidden>
                 <button type="button" class="upload-btn" onclick="document.getElementById('imageUpload').click()">画像を選択する</button>
             </div>
+            @error('image')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
 
@@ -60,6 +63,9 @@
                     </button>
                 @endforeach
                 <input type="hidden" name="category_ids" id="category_ids">
+                @error('category_ids')
+                    <p class="error">{{ $message }}</p>
+                @enderror
             </div>
             <script>
             const categoryBtns = document.querySelectorAll('.category-btn');
@@ -94,6 +100,9 @@
                     <option value="やや傷や汚れあり">やや傷や汚れあり</option>
                     <option value="状態が悪い">状態が悪い</option>
                 </select>
+                @error('condition')
+                    <p class="error">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -102,6 +111,9 @@
         <div class="form-group">
             <label>商品名</label>
             <input type="text" name="name" value="{{ old('name') }}" required>
+            @error('name')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -112,6 +124,9 @@
         <div class="form-group">
             <label>商品の説明</label>
             <textarea name="description">{{ old('description') }}</textarea>
+            @error('description')
+                <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -120,6 +135,9 @@
                 <span class="price-symbol">¥</span>
                 <input type="number" name="price" value="{{ old('price') }}" required>
             </div>
+            @error('price')
+                    <p class="error">{{ $message }}</p>
+            @enderror
         </div>
 
         <button type="submit" class="btn-submit">出品する</button>

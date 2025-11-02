@@ -20,6 +20,22 @@ class StripeController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        $postalCode = $request->postal_code;
+        $address    = $request->address;
+        $building   = $request->building ?? null;
+
+
+
+        $purchase = Purchase::create([
+            'user_id'     => $user->id,
+            'item_id'     => $item->id,
+            'postal_code' => $postalCode,
+            'address'     => $address,
+            'building'    => $building,
+            'status'      => 'pending',
+        ]);
+
+
         $session = Session::create([
             'payment_method_types' => [$paymentMethod],
             'line_items' => [[
@@ -38,16 +54,8 @@ class StripeController extends Controller
             'cancel_url'  => route('stripe.cancel', ['item_id' => $item->id]),
         ]);
 
-        // ✅ 購入データを先に pending で作成
-        $purchase = Purchase::create([
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'quantity' => 1,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'building' => $request->building,
-            'status' => 'pending',
-            'stripe_session_id' => $session->id,
+        $purchase->update([
+        'stripe_session_id' => $session->id
         ]);
 
         session(['purchase_id' => $purchase->id]);

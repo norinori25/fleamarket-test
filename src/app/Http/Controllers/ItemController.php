@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\ExhibitionRequest;
 
 
 class ItemController extends Controller
@@ -60,23 +61,8 @@ class ItemController extends Controller
         return view('items.create', compact('categories', 'user'));
     }
 
-    public function store(Request $request)
+    public function store(ExhibitionRequest $request)
     {
-        $categoryIds = json_decode($request->category_ids, true); // ← ここで変換
-
-        $request->merge(['category_ids' => $categoryIds]); // ← 配列に差し替え
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer|min:0',
-            'description' => 'nullable|string',
-            'brand_name' => 'nullable|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'category_ids' => 'required|array', // ← 配列として受け取る
-            'category_ids.*' => 'integer|exists:categories,id',
-            'condition' => 'nullable|string|max:255',
-        ]);
-
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('item_images', 'public');
         }
@@ -88,7 +74,7 @@ class ItemController extends Controller
             'description' => $request->description,
             'brand_name' => $request->brand_name,
             'image_url' => '/storage/' . $path,
-            'condition' => $request->condition ?? '良好',
+            'condition' => $request->condition,
             'status' => 'on_sale',
         ]);
 

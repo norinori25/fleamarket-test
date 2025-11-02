@@ -76,8 +76,12 @@
     <div class="right-column">
         <form id="purchase-form" action="{{ route('checkout') }}" method="POST">
             @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-           
+            <input type="hidden" name="item_id" value="{{ $item->id }}" form="purchase-form">
+            <input type="hidden" name="postal_code" value="{{ $shippingAddress['postal_code'] }}" form="purchase-form">
+            <input type="hidden" name="address" value="{{ $shippingAddress['address'] }}" form="purchase-form">
+            <input type="hidden" name="building" value="{{ $shippingAddress['building'] ?? '' }}" form="purchase-form">
+
+
             <table class="purchase-summary">
                 <tr>
                     <th>商品代金</th>
