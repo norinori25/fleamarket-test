@@ -52,28 +52,13 @@ class PurchaseController extends Controller
 
     public function store(Request $request, $item_id)
     {
-        $item = Item::findOrFail($item_id);
-        $user = Auth::user();
-
         $shipping = session('shipping_address');
         if (!$shipping) {
             return back()->with('error', '配送先情報がありません。');
         }
 
-        // ✅ 仮購入レコード作成 (pending)
-        $purchase = Purchase::create([
-            'user_id'      => $user->id,
-            'item_id'      => $item->id,
-            'postal_code'  => $shipping['postal_code'],
-            'address'      => $shipping['address'],
-            'building'     => $shipping['building'] ?? null,
-            'status'       => 'pending',
-        ]);
-
-        // ✅ purchase_id をセッションに保存して Stripe へ
-        session(['purchase_id' => $purchase->id]);
         session(['purchase_payment_method' => $request->payment_method]);
-        
-        return redirect()->route('checkout');
+
+         return redirect()->route('checkout', ['item_id' => $item_id]);
     }
 }

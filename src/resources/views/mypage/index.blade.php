@@ -2,6 +2,10 @@
 
 @section('title', 'マイページ')
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 @push('css')
 <link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
 @endpush
@@ -32,43 +36,23 @@
 
 <!-- タブ切替 -->
 <div class="mypage-tabs">
-    <a href="{{ url('/mypage?page=sell') }}" class="{{ $page === 'sell' ? 'active' : '' }}">
-        出品した商品
-    </a>
     <a href="{{ url('/mypage?page=buy') }}" class="{{ $page === 'buy' ? 'active' : '' }}">
         購入した商品
+    </a>
+    <a href="{{ url('/mypage?page=sell') }}" class="{{ $page === 'sell' ? 'active' : '' }}">
+        出品した商品
     </a>
 </div>
 
 <!-- 商品一覧 -->
 <div class="item-list">
 
-    {{-- ✅ 出品した商品 --}}
-    @if($page === 'sell')
-        @forelse ($items as $item)
-            <div class="item-item">
-                <img src="{{ asset('storage/product_img/' . $item->image_url) }}" class="item-image" data-item-id="{{ $item->id }}">
-                <p class="item-name">{{ $item->name }}</p>
-
-                @if($item->status === 'sold')
-                    <span class="badge sold">SOLD</span>
-                @else
-                    <span class="badge available">販売中</span>
-                @endif
-            </div>
-        @empty
-            <p>出品した商品はありません。</p>
-        @endforelse
-    @endif
-
     {{-- ✅ 購入した商品 --}}
     @if($page === 'buy')
         @forelse ($purchases as $purchase)
             <div class="item-item">
-                <img src="{{ asset('storage/product_img/' . $purchase->item->image_url) }}"
-                     class="item-image"
-                     data-item-id="{{ $purchase->item->id }}">
-
+                <img src="{{ Str::startsWith($item->image_url, 'http')
+                    ? $item->image_url : asset('storage/item_images/' . $item->image_url) }}" alt="{{ $item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">
                 <p class="item-name">{{ $purchase->item->name }}</p>
 
                 {{-- ✅ 支払いステータス表示 --}}
@@ -98,6 +82,22 @@
             </div>
         @empty
             <p>購入した商品はありません。</p>
+        @endforelse
+    @endif
+
+     {{-- ✅ 出品した商品 --}}
+    @if($page === 'sell')
+        @forelse ($items as $item)
+            <div class="item-item">
+                <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-image" data-item-id="{{ $item->id }}">
+                <p class="item-name">{{ $item->name }}</p>
+
+                @if($item->status === 'sold')
+                    <span class="badge sold">SOLD</span>
+                @endif
+            </div>
+        @empty
+            <p>出品した商品はありません。</p>
         @endforelse
     @endif
 
