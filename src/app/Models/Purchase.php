@@ -15,6 +15,8 @@ class Purchase extends Model
         'postal_code',
         'address',
         'building',
+        'status',
+        'stripe_session_id',
     ];
 
     public function user()

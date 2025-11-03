@@ -15,7 +15,7 @@ services:
     build: ./docker/php
     volumes:
       - ./src:/var/www/
-    ports:   # ← ここを追加
+    ports:
       - "8000:8000"
 
   mysql:
@@ -41,4 +41,11 @@ services:
     depends_on:
       - mysql
     ports:
-      - 8080:80
+      - "8080:80"
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI

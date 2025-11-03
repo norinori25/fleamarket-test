@@ -24,8 +24,7 @@ class StripeController extends Controller
         $address    = $request->address;
         $building   = $request->building ?? null;
 
-
-
+        // Purchase を作成して status を pending に
         $purchase = Purchase::create([
             'user_id'     => $user->id,
             'item_id'     => $item->id,
@@ -35,7 +34,7 @@ class StripeController extends Controller
             'status'      => 'pending',
         ]);
 
-
+        // Stripe Checkout セッション作成
         $session = Session::create([
             'payment_method_types' => [$paymentMethod],
             'line_items' => [[
@@ -52,14 +51,22 @@ class StripeController extends Controller
             'mode' => 'payment',
             'success_url' => route('stripe.success'),
             'cancel_url'  => route('stripe.cancel', ['item_id' => $item->id]),
+            'metadata' => [
+                'purchase_id' => $purchase->id,  // ← ここで必ずセット
+                'item_id'     => $item->id,
+                'user_id'     => $user->id,
+            ],
         ]);
 
+        // stripe_session_id を保存
         $purchase->update([
-        'stripe_session_id' => $session->id
+            'stripe_session_id' => $session->id
         ]);
 
+        // セッションに購入IDを保存（必要であれば）
         session(['purchase_id' => $purchase->id]);
 
+        // Stripe Checkout ページへリダイレクト
         return redirect($session->url);
     }
 

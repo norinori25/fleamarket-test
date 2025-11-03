@@ -51,7 +51,12 @@
     @if($page === 'buy')
         @forelse ($purchases as $purchase)
             <div class="item-item">
-                <img src="{{ Str::startsWith($purchase->item->image_url, 'http')? $purchase->item->image_url : asset('storage/item_images/' . $purchase->item->image_url) }}" alt="{{ $purchase->item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">
+                @php
+                    $img = $purchase->item->image_url;
+                    // S3 URL ならそのまま、ローカルなら storage 配下にする
+                    $imageUrl = Str::startsWith($img, ['http://','https://'])? $img : asset('storage/item_images/' . basename($img));
+                @endphp
+                <img src="{{ $imageUrl }}" alt="{{ $purchase->item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">
                 <p class="item-name">{{ $purchase->item->name }}</p>
 
                 {{-- ✅ 支払いステータス表示 --}}
@@ -91,7 +96,6 @@
                 <a href="{{ route('items.show', $item->id) }}">
                     <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-image"></a>
                     <p class="item-name">{{ $item->name }}</p>
-                </a>
 
                 @if($item->status === 'sold')
                     <span class="badge sold">SOLD</span>

@@ -12,14 +12,17 @@ use App\Http\Controllers\CommentController;
 use Stripe\Stripe;
 use App\Http\Controllers\StripeWebhookController;
 
-
 // 一般公開ルート
 Route::get('/', [ItemController::class, 'index'])->name('home');
-Route::get('/items', [itemController::class, 'index'])->name('items.index');
+Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
 
 // ログイン必須ルート
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
+});
+
 Route::middleware('auth')->group(function () {
     // マイページ
     Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
@@ -46,3 +49,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
+
+Auth::routes(['verify' => true]);
+
