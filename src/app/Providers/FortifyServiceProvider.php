@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Features;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -18,46 +19,55 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
+        // メール認証ビューの設定
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
+        });
+
         app()->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
                 public function toResponse($request)
                 {
-                    return Redirect::route('profile.edit');
+                    return Redirect::route('verification.notice');
                 }
             };
         });
 
-    Fortify::authenticateUsing(function (\Illuminate\Http\Request $request) {
-    $rules = [
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string'],
-    ];
+        Fortify::authenticateUsing(function (Request $request) {
+            $rules = [
+                'email' => ['required', 'email'],
+                'password' => ['required', 'string'],
+            ];
 
-    $messages = [
-        'email.required' => 'メールアドレスを入力してください',
-        'email.email' => 'メールアドレスはメール形式で入力してください',
-        'password.required' => 'パスワードを入力してください',
-    ];
+            $messages = [
+                'email.required' => 'メールアドレスを入力してください',
+                'email.email' => 'メールアドレスはメール形式で入力してください',
+                'password.required' => 'パスワードを入力してください',
+            ];
 
-    $request->validate($rules, $messages);
+            $request->validate($rules, $messages);
 
-    $credentials = $request->only('email', 'password');
+            $credentials = $request->only('email', 'password');
 
-    if (!Auth::attempt($credentials, $request->boolean('remember'))) {
-        throw ValidationException::withMessages([
-            'email' => ['ログイン情報が登録されていません'],
-        ]);
-    }
+            if (!Auth::attempt($credentials,    $request->boolean('remember'))) {
+                throw ValidationException::withMessages([
+                    'email' => ['ログイン情報が登録されていません'],
+                ]);
+            }
 
-    $request->session()->regenerate();
+            $request->session()->regenerate();
 
-    return Auth::user();
-});
-
-
+            return Auth::user();
+        });
 
         // ビューの設定
         Fortify::loginView(fn() => view('auth.login'));
         Fortify::registerView(fn() => view('auth.register'));
     }
+
+    public function register()
+    {
+    //
+    }
+
 }

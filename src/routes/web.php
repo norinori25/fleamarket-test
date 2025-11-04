@@ -1,5 +1,6 @@
 <?php
 
+use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,29 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CommentController;
 use Stripe\Stripe;
 use App\Http\Controllers\StripeWebhookController;
+use Illuminate\Http\Request;;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Laravel\Fortify\Http\Controllers\EmailVerificationPromptController;
+use Laravel\Fortify\Http\Controllers\VerifyEmailController;
+use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
+
+// Email verification routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', [EmailVerificationPromptController::class, '__invoke'])
+        ->name('verify.notice');
+
+    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verify.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+
+Fortify::verifyEmailView(function () {
+    return view('auth.verify-email');
+});
 
 // 一般公開ルート
 Route::get('/', [ItemController::class, 'index'])->name('home');
@@ -18,13 +42,8 @@ Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('items.show');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
 
-// ログイン必須ルート
+/// ログイン & メール認証済みユーザー用
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
-});
-
-Route::middleware('auth')->group(function () {
-    // マイページ
     Route::get('/mypage', [MypageController::class, 'index'])->name('mypage');
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -50,5 +69,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-Auth::routes(['verify' => true]);
+// ① 認証メール送信案内
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware(['auth'])->name('verification.notice');
 
+// ② 認証リンクを踏んだ時
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/mypage');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// ③ 認証メール再送
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', '確認メールを再送しました。');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
