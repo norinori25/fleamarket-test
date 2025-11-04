@@ -12,6 +12,8 @@ use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Features;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Event;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -57,12 +59,30 @@ class FortifyServiceProvider extends ServiceProvider
 
             $request->session()->regenerate();
 
-            return Auth::user();
+            $user = Auth::user();
+
+            if ($request->routeIs('logout')) {
+                return $user;
+            }
+
+            if (! $user->hasVerifiedEmail()) {
+                Auth::logout();
+                return Redirect::route('verification.notice');
+            }
+
+            return $user;
+
         });
 
         // ビューの設定
         Fortify::loginView(fn() => view('auth.login'));
         Fortify::registerView(fn() => view('auth.register'));
+
+        // ✅ メール認証後、プロフィール設定画面へリダイレクト
+        Event::listen(Verified::class, function ($event) {
+            return redirect('/mypage/profile');
+        });
+
     }
 
     public function register()

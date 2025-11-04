@@ -18,18 +18,18 @@ use Laravel\Fortify\Http\Controllers\EmailVerificationPromptController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 
-// Email verification routes
+// ✅ Email verification routes (Fortify)
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', [EmailVerificationPromptController::class, '__invoke'])
-        ->name('verify.notice');
+        ->name('verification.notice'); // ★修正
 
     Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
         ->middleware(['signed', 'throttle:6,1'])
-        ->name('verify.verify');
+        ->name('verification.verify'); // ★修正
 
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
-        ->name('verification.send');
+        ->name('verification.send'); // ★修正
 });
 
 Fortify::verifyEmailView(function () {
@@ -68,20 +68,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-
-// ① 認証メール送信案内
-Route::get('/email/verify', function () {
-    return view('auth.verify');
-})->middleware(['auth'])->name('verification.notice');
-
-// ② 認証リンクを踏んだ時
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/mypage');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-// ③ 認証メール再送
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', '確認メールを再送しました。');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="verify-notice" style="text-align:center; padding:30px;">
     <p>
