@@ -12,26 +12,37 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CommentController;
 use Stripe\Stripe;
 use App\Http\Controllers\StripeWebhookController;
-use Illuminate\Http\Request;;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Laravel\Fortify\Http\Controllers\EmailVerificationPromptController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 
-// ✅ Email verification routes (Fortify)
+// ✅ Fortify標準：認証待ちページ
+// Fortify標準：認証待ちページ
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', [EmailVerificationPromptController::class, '__invoke'])
-        ->name('verification.notice'); // ★修正
-
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify'); // ★修正
+        ->name('verification.notice');
 
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
-        ->name('verification.send'); // ★修正
+        ->name('verification.send');
 });
 
+// ✅ メールリンクをクリック後の処理
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('profile.edit')->with('status', 'verified');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+// ✅ メールリンクをクリック後の遷移（email_verified_at 更新）
+Route::get('/email/verified', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('profile.edit')->with('status', 'verified');
+})->middleware(['auth', 'signed'])->name('verification.done');
+
+// ✅ Fortify にビューを提供
 Fortify::verifyEmailView(function () {
     return view('auth.verify-email');
 });

@@ -11,15 +11,14 @@
         メール認証を完了してください。
     </p>
 
-    {{-- 認証ページへ --}}
-    <form method="POST" action="{{ route('verification.send') }}" class="verify-form">
-        @csrf
-        <button type="submit" class="verify-button">
+    {{-- 認証ページへ（GETリンク） --}}
+    <div class="verify-form">
+        <a href="{{ route('verification.notice') }}" class="verify-button">
             認証はこちらから
-        </button>
-    </form>
+        </a>
+    </div>
 
-    {{-- 再送リンク --}}
+    {{-- 再送リンク（POSTフォーム） --}}
     <form method="POST" action="{{ route('verification.send') }}" class="resend-form">
         @csrf
         <button type="submit" class="resend-button">

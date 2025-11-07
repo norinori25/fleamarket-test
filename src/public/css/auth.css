@@ -93,6 +93,7 @@ input {
     color: #000;
     border-radius: 10px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .verify-button:hover {

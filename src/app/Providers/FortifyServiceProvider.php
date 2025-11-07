@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
-use Laravel\Fortify\Features;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,6 +28,30 @@ class FortifyServiceProvider extends ServiceProvider
                 public function toResponse($request)
                 {
                     return Redirect::route('verification.notice');
+                }
+            };
+        });
+
+        // LoginResponse: ログイン成功時に「未認証なら強制ログアウトして認証誘導ページへ」
+        app()->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $user = $request->user();
+
+                    if ($user && ! $user->hasVerifiedEmail()) {
+                        // 未認証ならログアウトし、誘導ページへ
+                        auth()->logout();
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+
+                        // フラッシュメッセージを付与
+                        return Redirect::route('verification.notice')
+                            ->withErrors(['email' => 'メール認証が必要です。認証メールをご確認ください。']);
+                    }
+
+                    // デフォルトのリダイレクト（任意で変更）
+                    return Redirect::intended(config('fortify.home', '/mypage'));
                 }
             };
         });
@@ -59,30 +80,12 @@ class FortifyServiceProvider extends ServiceProvider
 
             $request->session()->regenerate();
 
-            $user = Auth::user();
-
-            if ($request->routeIs('logout')) {
-                return $user;
-            }
-
-            if (! $user->hasVerifiedEmail()) {
-                Auth::logout();
-                return Redirect::route('verification.notice');
-            }
-
-            return $user;
-
+            return auth()->user();
         });
 
         // ビューの設定
         Fortify::loginView(fn() => view('auth.login'));
         Fortify::registerView(fn() => view('auth.register'));
-
-        // ✅ メール認証後、プロフィール設定画面へリダイレクト
-        Event::listen(Verified::class, function ($event) {
-            return redirect('/mypage/profile');
-        });
-
     }
 
     public function register()
