@@ -52,9 +52,9 @@ class StripeController extends Controller
             'success_url' => route('stripe.success'),
             'cancel_url'  => route('stripe.cancel', ['item_id' => $item->id]),
             'metadata' => [
-                'purchase_id' => $purchase->id,  // ← ここで必ずセット
-                'item_id'     => $item->id,
-                'user_id'     => $user->id,
+                'purchase_id' => (string) $purchase->id,
+                'item_id'     => (string) $item->id,
+                'user_id'     => (string) $user->id,
             ],
         ]);
 

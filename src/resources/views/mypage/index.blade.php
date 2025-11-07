@@ -53,7 +53,6 @@
             <div class="item-item">
                 @php
                     $img = $purchase->item->image_url;
-                    // S3 URL ならそのまま、ローカルなら storage 配下にする
                     $imageUrl = Str::startsWith($img, ['http://','https://'])? $img : asset('storage/item_images/' . basename($img));
                 @endphp
                 <img src="{{ $imageUrl }}" alt="{{ $purchase->item->name }}" class="item-image" data-item-id="{{ $purchase->item->id }}">

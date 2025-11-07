@@ -25,21 +25,30 @@ class StripeWebhookController extends Controller
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
 
-            // Webhook で受け取った session ID をログ
-            \Log::info('Webhook Session ID: ' . $session->id);
+            \Log::info('Webhook triggered for Session ID: ' . $session->id);
 
-            // 本来は stripe_session_id で検索するけど、テスト用に最新 Purchase を使う
-            $purchase = Purchase::where('stripe_session_id', $session->id)->first();
-            if (!$purchase) {
-                $purchase = Purchase::latest()->first();
-            }
+            // Stripe Checkout で送った metadata から purchase_id を取得
+            $purchaseId = $session->metadata->purchase_id ?? null;
 
-            if ($purchase) {
-                $purchase->update(['status' => 'paid']);
-                $purchase->item->update(['status' => 'sold']);
-                \Log::info('Purchase and Item updated: ' . $purchase->id);
+            if ($purchaseId) {
+                $purchase = Purchase::find($purchaseId);
+
+                if ($purchase) {
+                    // Purchase のステータス更新
+                    $purchase->update(['status' => 'paid']);
+
+                    // Item のステータス更新
+                    if ($purchase->item) {
+                        $purchase->item->update(['status' => 'sold']);
+                        \Log::info('Purchase and Item updated successfully. Purchase ID: ' . $purchase->id);
+                    } else {
+                        \Log::warning('Item not found for Purchase ID: ' . $purchase->id);
+                    }
+                } else {
+                    \Log::warning('Purchase not found for ID: ' . $purchaseId);
+                }
             } else {
-                \Log::warning('Purchase not found for session: ' . $session->id);
+                \Log::warning('purchase_id not found in session metadata. Session ID: ' . $session->id);
             }
         }
 
