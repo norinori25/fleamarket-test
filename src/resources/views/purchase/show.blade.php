@@ -35,7 +35,7 @@
         </div>
         <div class="form-section">
             <select name="payment_method" id="payment_method" form="purchase-form" class="payment-select">
-                <option value="" disabled selected>選択してください</option>
+                <option value="" disabled {{ old('payment_method') ? '' : 'selected' }}>選択してください</option>
                 <option value="konbini" {{ old('payment_method') === 'konbini' ? 'selected' : '' }}>コンビニ払い</option>
                 <option value="card" {{ old('payment_method') === 'card' ? 'selected' : '' }}>カード払い</option>
             </select>
@@ -62,8 +62,7 @@
             @if(!empty($shippingAddress['building']))
                 <p>{{ $shippingAddress['building'] }}</p>
             @endif
-            <input type="hidden" name="shipping_address_id" value="1" form="purchase-form">
-            @error('shipping_address_id')
+            @error('shipping_address')
                 <p class="error">{{ $message }}</p>
             @enderror
         </div>
@@ -74,12 +73,13 @@
 
     {{-- 右側の購入概要テーブル --}}
     <div class="right-column">
-        <form id="purchase-form" action="{{ route('checkout') }}" method="POST">
+        <form id="purchase-form" action="{{ route('checkout', ['item_id' => $item->id]) }}" method="POST">
             @csrf
             <input type="hidden" name="item_id" value="{{ $item->id }}" form="purchase-form">
             <input type="hidden" name="postal_code" value="{{ $shippingAddress['postal_code'] }}" form="purchase-form">
             <input type="hidden" name="address" value="{{ $shippingAddress['address'] }}" form="purchase-form">
             <input type="hidden" name="building" value="{{ $shippingAddress['building'] ?? '' }}" form="purchase-form">
+            <input type="hidden" name="shipping_address_id" value="1" form="purchase-form">
 
 
             <table class="purchase-summary">
@@ -91,7 +91,7 @@
                     <th>支払い方法</th>
                     <td id="summary-payment">選択してください</td>
                 </tr>
-            </table>
+            </table>    
 
             <button type="submit" class="purchase-btn">購入する</button>
         </form>

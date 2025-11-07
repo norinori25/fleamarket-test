@@ -73,7 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/purchase/{item_id}/address', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
     Route::post('/purchase/{item_id}/address', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
     Route::post('/item/{item_id}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/{item_id}', [StripeController::class, 'checkout'])->name('checkout');
     Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
     Route::get('/stripe/cancel/{item_id}', [StripeController::class, 'cancel'])->name('stripe.cancel');
 

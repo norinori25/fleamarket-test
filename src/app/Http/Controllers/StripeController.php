@@ -12,16 +12,16 @@ use App\Models\Purchase;
 
 class StripeController extends Controller
 {
-    public function checkout(PurchaseRequest $request)
+    public function checkout(PurchaseRequest $request, $item_id)
     {
         $user = Auth::user();
-        $item = Item::findOrFail($request->item_id);
-        $paymentMethod = $request->input('payment_method');
+        $item = Item::findOrFail($item_id);
+        $paymentMethod = $request->validated()['payment_method'];
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $postalCode = $request->postal_code;
-        $address    = $request->address;
+        $postalCode = $request->validated()['postal_code'];
+        $address    = $request->validated()['address'];
         $building   = $request->building ?? null;
 
         // Purchase を作成して status を pending に

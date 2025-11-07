@@ -7,6 +7,7 @@ use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\PurchaseRequest;
 
 class PurchaseController extends Controller
 {
@@ -22,6 +23,8 @@ class PurchaseController extends Controller
             'building' => $user->building,
         ]);
 
+        session(['shipping_address' => $shippingAddress]);
+        
         return view('purchase.show', compact('item', 'shippingAddress'));
     }
 
@@ -50,8 +53,10 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.show', ['item_id' => $item_id])->with('status', '配送先を更新しました。');
     }
 
-    public function store(Request $request, $item_id)
+    public function store(PurchaseRequest $request, $item_id)
     {
+        $validated = $request->validated();
+        
         $shipping = session('shipping_address');
         if (!$shipping) {
             return back()->with('error', '配送先情報がありません。');
@@ -59,6 +64,6 @@ class PurchaseController extends Controller
 
         session(['purchase_payment_method' => $request->payment_method]);
 
-         return redirect()->route('checkout', ['item_id' => $item_id]);
+        return redirect()->route('checkout', ['item_id' => $item_id]);
     }
 }

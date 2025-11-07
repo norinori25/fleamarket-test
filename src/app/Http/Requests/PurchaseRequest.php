@@ -15,15 +15,29 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method' => 'required',
-            'shipping_address_id' => 'required',
+            'postal_code'    => 'required',
+            'address'        => 'required',
         ];
     }
+
 
     public function messages(): array
     {
         return [
             'payment_method.required' => '支払い方法を選択してください',
-            'shipping_address_id.required' => '配送先を選択してください',
+            'postal_code.required'    => '郵便番号を入力してください',
+            'address.required'        => '住所を入力してください',
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (!$this->postal_code || !$this->address) {
+                $validator->errors()->add('shipping_address', '配送先を選択してください');
+            }
+        });
+    }
+
 }
+
