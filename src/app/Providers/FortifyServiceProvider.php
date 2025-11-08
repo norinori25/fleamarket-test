@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -18,7 +19,7 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // メール認証ビューの設定
+        // メール認証ビュー
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
         });
@@ -32,7 +33,6 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
-        // LoginResponse: ログイン成功時に「未認証なら強制ログアウトして認証誘導ページへ」
         app()->singleton(LoginResponse::class, function () {
             return new class implements LoginResponse {
                 public function toResponse($request)
@@ -40,18 +40,10 @@ class FortifyServiceProvider extends ServiceProvider
                     $user = $request->user();
 
                     if ($user && ! $user->hasVerifiedEmail()) {
-                        // 未認証ならログアウトし、誘導ページへ
-                        auth()->logout();
-                        $request->session()->invalidate();
-                        $request->session()->regenerateToken();
-
-                        // フラッシュメッセージを付与
-                        return Redirect::route('verification.notice')
-                            ->withErrors(['email' => 'メール認証が必要です。認証メールをご確認ください。']);
+                        return Redirect::route('verification.notice');
                     }
 
-                    // デフォルトのリダイレクト（任意で変更）
-                    return Redirect::intended(config('fortify.home', '/mypage'));
+                    return Redirect::intended(config('fortify.home', '/mypage/profile'));
                 }
             };
         });

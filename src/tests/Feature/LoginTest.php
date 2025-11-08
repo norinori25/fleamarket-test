@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -58,5 +60,57 @@ class LoginTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
         $response->assertRedirect('/mypage/profile');
+    }
+
+    /** @test */
+    public function 未認証ユーザーはメール認証誘導画面へリダイレクトされる()
+    {
+        $user = User::factory()->unverified()->create([
+            'email' => 'unverified@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        // LoginResponse の挙動を確認するため、ログイン試行
+        $response = $this->post('/login', [
+            'email' => 'unverified@example.com',
+            'password' => 'password123',
+        ]);
+
+        // 未認証なので誘導ページへリダイレクト
+        $response->assertRedirect(route('verification.notice'));
+        $this->assertGuest(); // 自動ログアウトされることも確認
+    }
+
+    /** @test */
+    public function 未認証ユーザーは認証メールを再送できる()
+    {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create([
+            'email' => 'resend@example.com',
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->post('/email/resend');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+        $response->assertSessionHas('status', 'verification-link-sent');
+    }
+
+    /** @test */
+    public function ログイン後はログアウトできる()
+    {
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->post('/logout');
+
+        $this->assertGuest();
+        $response->assertRedirect('/');
     }
 }
