@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -43,20 +45,56 @@ class LoginTest extends TestCase
         $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);
     }
 
-    /** @test */
-    public function 正しい情報でログインできる()
+   /** @test */
+    public function 未認証ユーザーはメール認証誘導画面へリダイレクトされる()
     {
-        $user = User::factory()->create([
-            'email' => 'test@example.com',
+        $user = User::factory()->unverified()->create([
+            'email' => 'unverified@example.com',
             'password' => bcrypt('password123'),
         ]);
 
         $response = $this->post('/login', [
-            'email' => 'test@example.com',
+            'email' => 'unverified@example.com',
             'password' => 'password123',
         ]);
 
+        // 未認証なので誘導ページへ
+        $response->assertRedirect(route('verification.notice'));
+        $this->assertAuthenticatedAs($user); // ログアウトはしない
+    }
+
+    /** @test */
+    public function 未認証ユーザーは認証メールを再送できる()
+    {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create([
+            'email' => 'resend@example.com',
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->post('/email/verification-notification');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+        $response->assertSessionHas('status', 'verification-link-sent');
+    }
+
+    /** @test */
+    public function 正しい情報でログインできる()
+    {
+        $user = User::factory()->create([
+            'email' => 'login@example.com',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => 'login@example.com',
+            'password' => 'password123',
+        ]);
+
+        $response->assertRedirect('/'); // 例: ログイン後のホームページ
         $this->assertAuthenticatedAs($user);
-        $response->assertRedirect('/mypage/profile');
     }
 }

@@ -24,7 +24,7 @@ class PurchaseController extends Controller
         ]);
 
         session(['shipping_address' => $shippingAddress]);
-        
+
         return view('purchase.show', compact('item', 'shippingAddress'));
     }
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\RegisterResponse;
-use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -20,10 +20,9 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // メール認証ビュー
-        Fortify::verifyEmailView(function () {
-            return view('auth.verify-email');
-        });
+        Fortify::verifyEmailView(fn() => view('auth.verify-email'));
 
+        // 新規登録後のリダイレクト
         app()->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
                 public function toResponse($request)
@@ -33,17 +32,21 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
-        app()->singleton(LoginResponse::class, function () {
-            return new class implements LoginResponse {
+        app()->singleton(LoginResponseContract::class, function () {
+            return new class implements LoginResponseContract {
                 public function toResponse($request)
                 {
                     $user = $request->user();
 
                     if ($user && ! $user->hasVerifiedEmail()) {
-                        return Redirect::route('verification.notice');
+                        auth()->logout();
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+
+                        return redirect()->route('verification.notice');
                     }
 
-                    return Redirect::intended(config('fortify.home', '/mypage/profile'));
+                    return redirect()->intended(config('fortify.home', '/mypage/profile'));
                 }
             };
         });

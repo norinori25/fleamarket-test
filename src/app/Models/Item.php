@@ -40,6 +40,10 @@ class Item extends Model
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
+    public function getFavoritesCountAttribute()
+    {
+    return $this->favorites()->count();
+    }
 
     public function isFavoritedBy(User $user)
     {

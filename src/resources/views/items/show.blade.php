@@ -74,7 +74,9 @@
 
             {{-- 購入ボタン --}}
             @auth
+                @if($item->status !== 'sold')
                 <a href="{{ route('purchase.show', ['item_id' => $item->id]) }}" class="btn-purchase">購入手続きへ</a>
+                @endif
             @else
                 <a href="{{ route('login') }}" class="btn-purchase">購入手続きへ</a>
             @endauth

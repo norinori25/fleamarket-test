@@ -70,15 +70,14 @@ class LoginTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        // LoginResponse の挙動を確認するため、ログイン試行
         $response = $this->post('/login', [
             'email' => 'unverified@example.com',
             'password' => 'password123',
         ]);
 
-        // 未認証なので誘導ページへリダイレクト
+        // 未認証なので誘導ページへ
         $response->assertRedirect(route('verification.notice'));
-        $this->assertGuest(); // 自動ログアウトされることも確認
+        $this->assertGuest(); // 自動ログアウトを確認
     }
 
     /** @test */
@@ -92,7 +91,8 @@ class LoginTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/email/resend');
+        // Fortify 標準の URL
+        $response = $this->post('/email/verification-notification');
 
         Notification::assertSentTo($user, VerifyEmail::class);
         $response->assertSessionHas('status', 'verification-link-sent');

@@ -16,6 +16,13 @@ class StripeController extends Controller
     {
         $user = Auth::user();
         $item = Item::findOrFail($item_id);
+
+         // SOLD チェック
+        if ($item->status === 'sold') {
+            return redirect()->route('items.show', ['item_id' => $item->id])
+                ->with('error', 'この商品はすでに購入済みです。');
+        }
+        
         $paymentMethod = $request->validated()['payment_method'];
 
         Stripe::setApiKey(config('services.stripe.secret'));
