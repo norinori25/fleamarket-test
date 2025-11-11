@@ -1,0 +1,5 @@
+# pack-refs with: peeled fully-peeled sorted 
+694a07dd609bc27c7802a9c9c28f1521738e24d5 refs/heads/backup-20251108
+c49ee822238014f08066b045f66ee7b52ecd32ea refs/heads/feature/item-detail-fix
+2a80103950e6cce44f3080c8b4896d1ec8017742 refs/heads/main
+23d89460f04658571c8c7f6506a0f32096fc38fa refs/heads/stripe-current-back
