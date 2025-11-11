@@ -3,15 +3,15 @@
 ## 環境構築
 
 ### Dockerビルド
- 1 git clone git@github.com:norinori25/fleamarket-test.git
- 2 DockerDesktopアプリを立ち上げる
- 3 docker-compose up -d --build
+ 1  git clone git@github.com:norinori25/fleamarket-test.git<br>
+ 2  DockerDesktopアプリを立ち上げる<br>
+ 3  docker-compose up -d --build
 
 ### Laravel環境構築
- 1 docker-compose exec php bash
- 2 composer install
- 3 cp .env.example .env
- 4 .env（例）
+ 1  docker-compose exec php bash<br>
+ 2  composer install<br>
+ 3  cp .env.example .env<br>
+ 4  .env（例）<br>
 
     APP_NAME=Laravel
     APP_ENV=local
@@ -39,32 +39,32 @@
     STRIPE_SECRET=sk_test_****************************
     STRIPE_WEBHOOK_SECRET=whsec_****************************
 
- 5 アプリケーションキー作成
-   php artisan key:generate
- 6 マイグレーションの実行
-   php artisan migrate
- 7 シーディングの実行
+ 5 アプリケーションキー作成<br>
+   php artisan key:generate<br>
+ 6 マイグレーションの実行<br>
+   php artisan migrate<br>
+ 7 シーディングの実行<br>
    php artisan db:seed
 
 ## テスト実行
- 1 docker-compose exec php bash
+ 1 docker-compose exec php bash<br>
  2 php artisan test
 
 
 ## 使用技術(実行環境)
- ・言語  PHP 8.1.33
- ・フレームワーク  Laravel 8.83.8
- ・データベース  MySQL 8.0.26
- ・Webサーバー  Nginx 1.21.1
- ・パッケージ管理  Composer
- ・メール確認ツール  MailHog
- ・決済サービス  Stripe（テスト環境）
+ ・言語  PHP 8.1.33<br>
+ ・フレームワーク  Laravel 8.83.8<br>
+ ・データベース  MySQL 8.0.26<br>
+ ・Webサーバー  Nginx 1.21.1<br>
+ ・パッケージ管理  Composer<br>
+ ・メール確認ツール  MailHog<br>
+ ・決済サービス  Stripe（テスト環境）<br>
  ・コンテナ管理  Docker / docker-compose
 
 ## ER図
   ![ER図](src/public/img/er.png)
 
 ## URL
- ・開発環境： http://localhost/
- ・phpMyAdmin: http://localhost:8080/
+ ・開発環境： http://localhost/<br>
+ ・phpMyAdmin: http://localhost:8080/<br>
  ・MailHog: http://localhost:8025
