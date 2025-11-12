@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
-use App\Http\Requests\RegisterRequest; // ✅ 追加
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
